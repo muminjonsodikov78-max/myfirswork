@@ -1,14 +1,42 @@
 # Muhsin Ta'lim API
 
-Node.js + Express backend. Maxfiy qiymatlarni GitHub'ga joylamang.
+Node.js + Express + PostgreSQL backend. Maxfiy qiymatlarni GitHub'ga joylamang.
 
-## Tayyorlash
+## Talablar
 
-1. PostgreSQL o'rnating va `muhsin_talimi` nomli database yarating.
-2. `.env.example` faylidan `.env` nusxa yarating.
-3. `.env` ichida DATABASE_URL va tasodifiy, kamida 32 belgili SESSION_SECRET qiymatini kiriting.
-4. `npm install` bu papkada bajaring.
-5. `npm run dev` bilan serverni ishga tushiring.
-6. `http://localhost:3001/api/health` manzilini tekshiring.
+- Node.js 20 yoki undan yangi
+- PostgreSQL 14 yoki undan yangi
+- Root frontend loyihasi uchun Node.js paketlari
 
-Hozircha faqat server va database ulanishining health endpoint'i mavjud. Login, foydalanuvchi yaratish va rollar keyingi bosqichda migratsiya hamda tekshiruvlar bilan qo'shiladi.
+## Birinchi sozlash (Windows PowerShell)
+
+1. PostgreSQL o'rnating va pgAdmin yoki SQL Shell orqali `muhsin_talimi` nomli database yarating.
+2. `server` papkasida `.env.example` nusxasini `.env` nomi bilan yarating.
+3. `.env` ichida `DATABASE_URL` qiymatini PostgreSQL parolingiz bilan to'ldiring. `SESSION_SECRET` uchun kamida 32 belgili tasodifiy maxfiy qiymat kiriting. Bu qiymatni hech kimga yubormang va GitHub'ga yuklamang.
+4. Terminalda `server` papkasiga o'tib quyidagilarni bajaring:
+
+```powershell
+npm install
+npm run migrate
+npm run seed:director
+npm run dev
+```
+
+5. `http://localhost:3001/api/health` manzilini oching. Database ulangan bo'lsa `{"status":"ok","database":"connected"}` qaytadi.
+
+## Direktor hisobi
+
+`npm run seed:director` loginni so'raydi (boshlang'ich qiymat `director`). Parol terminalda yashirin kiritiladi va ikki marta tasdiqlanadi. Kamida 12 belgili parol tanlang. Parol bazaga bcrypt xeshi ko'rinishida yoziladi. Bir xil loginni qayta yaratish mumkin emas.
+
+## API
+
+- `POST /api/auth/login` — login va parol bilan kirish
+- `GET /api/auth/me` — joriy sessiya foydalanuvchisi
+- `POST /api/auth/logout` — sessiyadan chiqish
+- `GET /api/health` — server va PostgreSQL holati
+
+Sessiyalar PostgreSQL'da saqlanadi. Cookie HttpOnly va SameSite=Lax; production rejimida Secure yoqiladi. Production'da HTTPS ishlating va `CLIENT_ORIGIN` ni aniq frontend domeniga o'zgartiring.
+
+## Hozirgi cheklov
+
+Bu bosqichda autentifikatsiya API va foydalanuvchi jadvali tayyor. React interfeysiga login oynasini ulash, rollar bo'yicha API ruxsatlarini har bir ma'lumot endpoint'ida qo'llash va localStorage ma'lumotlarini PostgreSQL'ga ko'chirish keyingi bosqichlardir. Mavjud brauzer ma'lumotlari o'chirilmaydi.
