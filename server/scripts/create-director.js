@@ -47,6 +47,11 @@ function askHidden(question) {
 }
 
 try {
+  const existingDirector = await pool.query("SELECT 1 FROM users WHERE role = 'director' LIMIT 1")
+  if (existingDirector.rowCount > 0) {
+    throw new Error('Direktor hisobi allaqachon mavjud. Yangi hisobni faqat mavjud direktor boshqaruv panelidan yaratsin.')
+  }
+
   const username = (await ask('Direktor login [director]: ', 'director')).toLowerCase()
   if (!/^[a-z0-9._-]{3,50}$/.test(username)) throw new Error('Login 3–50 belgidan iborat bo‘lsin (a-z, 0-9, ., _, -).')
   const password = await askHidden('Direktor paroli (kamida 12 belgi, ekranda ko‘rinmaydi): ')
