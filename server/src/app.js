@@ -7,6 +7,8 @@ import { rateLimit } from 'express-rate-limit'
 import { pool } from './config/database.js'
 import authRoutes from './routes/auth.js'
 import userRoutes from './routes/users.js'
+import studentRoutes from './routes/students.js'
+import teacherRoutes from './routes/teachers.js'
 
 if (!process.env.SESSION_SECRET || process.env.SESSION_SECRET.length < 32) {
   throw new Error('SESSION_SECRET kamida 32 belgidan iborat bo‘lishi kerak')
@@ -63,6 +65,8 @@ app.get('/api/health', async (_req, res) => {
 
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/students', studentRoutes)
+app.use('/api/teachers', teacherRoutes)
 
 app.use((error, _req, res, _next) => {
   console.error(error.message)
