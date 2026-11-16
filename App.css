@@ -2385,3 +2385,159 @@ footer {
     gap: 15px;
   }
 }
+
+
+/* ===== DASHBOARD: NAVY + GOLD DESIGN SYSTEM ===== */
+:root {
+  --primary: #173765;
+  --primary-dark: #10294b;
+  --primary-light: #fff7dc;
+  --sidebar: #10294b;
+  --gold: #f2c94c;
+}
+.sidebar {
+  background: linear-gradient(180deg, #10294b 0%, #0b1d36 100%);
+}
+.brand-icon,
+.brand-logo {
+  background: linear-gradient(135deg, #f8dc78, #e9b92f);
+  color: #10294b;
+  box-shadow: 0 6px 18px #e9b92f35;
+}
+.brand span {
+  display: block;
+  color: #c5d3e8;
+  font-size: 10px;
+  letter-spacing: 1.1px;
+  margin-top: 3px;
+}
+.menu-item.selected {
+  background: linear-gradient(110deg, #f5d46b, #edbd3e);
+  color: #10294b;
+  font-weight: 800;
+  box-shadow: 0 6px 18px #e9b92f30;
+}
+.menu-item.selected .menu-icon { color: #10294b; }
+.main {
+  background: #f4f6fa;
+}
+.topbar {
+  padding: 5px 0 19px;
+  border-bottom: 1px solid #e5eaf1;
+}
+.topbar h2 {
+  color: #142d50;
+  font-size: 24px;
+  font-weight: 750;
+}
+.top-date {
+  border-radius: 12px;
+  color: #173765;
+  font-weight: 650;
+}
+.welcome {
+  background: linear-gradient(115deg, #10294b 0%, #1d4778 68%, #28578a 100%);
+  border: 1px solid #284d78;
+  box-shadow: 0 14px 32px #10294b20;
+}
+.welcome-tag {
+  color: #f8dc78;
+  background: #ffffff12;
+  border-color: #f2c94c65;
+  letter-spacing: 1.2px;
+  font-weight: 750;
+}
+.welcome h1 { color: #fff; font-size: 30px; }
+.welcome p { color: #d9e5f3; }
+.welcome-art {
+  color: #f2c94c;
+  opacity: .28;
+}
+.stats-grid { gap: 16px; }
+.stat-card {
+  border-radius: 17px;
+  border-color: #e7ebf2;
+  box-shadow: 0 5px 18px #152b4810;
+}
+.stat-card:nth-child(1) .stat-icon { background: #fff4d1; color: #9a6c00; }
+.stat-card:nth-child(2) .stat-icon { background: #e8effa; color: #244c7c; }
+.stat-card:nth-child(3) .stat-icon { background: #e6f5ed; color: #19734a; }
+.stat-card:nth-child(4) .stat-icon { background: #f1eafa; color: #7045a0; }
+.stat-number { color: #173765; font-weight: 800; }
+.dashboard-insights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 0 24px;
+}
+.dashboard-insight-card {
+  min-width: 0;
+  padding: 19px 20px;
+  border: 1px solid #e6ebf2;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 5px 18px #152b480d;
+}
+.dashboard-insight-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.dashboard-insight-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #fff4d1;
+  color: #9a6c00;
+  font-size: 19px;
+  font-weight: 800;
+}
+.dashboard-insight-label {
+  color: #8290a4;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .9px;
+}
+.dashboard-insight-card > strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: #173765;
+  font-size: clamp(19px, 2vw, 25px);
+  line-height: 1.35;
+  font-weight: 800;
+}
+.dashboard-insight-card > p {
+  margin-top: 7px;
+  color: #8995a7;
+  font-size: 11px;
+}
+.dashboard-attendance .dashboard-insight-icon { background: #e6f5ed; color: #19734a; }
+.dashboard-grades .dashboard-insight-icon { background: #eee8fb; color: #7045a0; }
+.panel, .students-panel {
+  border-color: #e7ebf2;
+  box-shadow: 0 5px 20px #152b480d;
+}
+.panel-heading h2, .panel-heading h3 { color: #173765; }
+.data-table th {
+  background: #f4f7fb;
+  color: #60718a;
+}
+.profile strong { display: block; color: #fff; font-size: 13px; }
+.profile span { display: block; color: #a9b7d2; font-size: 11px; margin-top: 4px; }
+@media (max-width: 1050px) {
+  .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dashboard-insights { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 650px) {
+  .main { padding: 20px 15px; }
+  .topbar { align-items: flex-start; flex-direction: column; }
+  .topbar h2 { font-size: 21px; }
+  .welcome { padding: 24px 20px; min-height: 160px; }
+  .welcome h1 { font-size: 25px; }
+  .welcome-art { right: 18px; top: 48px; font-size: 70px; }
+  .stats-grid, .dashboard-insights { grid-template-columns: 1fr; gap: 12px; }
+  .dashboard-insight-card { padding: 17px; }
+}
