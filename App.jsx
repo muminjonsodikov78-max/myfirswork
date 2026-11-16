@@ -75,14 +75,31 @@ const makeDemoData = () => {
   return { students,teachers,classes,schedules,attendance,grades,payments,parents }
 }
 const DEMO_DATA = makeDemoData()
+const DEMO_DATA_BY_KEY = {
+  muhsin_students: DEMO_DATA.students,
+  muhsin_teachers: DEMO_DATA.teachers,
+  muhsin_classes: DEMO_DATA.classes,
+  muhsin_weekly_schedules_v2: DEMO_DATA.schedules,
+  muhsin_attendance: DEMO_DATA.attendance,
+  muhsin_grades: DEMO_DATA.grades,
+  muhsin_payments: DEMO_DATA.payments,
+  muhsin_parents: DEMO_DATA.parents
+}
 const loadAppData = key => {
   if (isDemoPreview) {
     const hasSavedRecords = DEMO_KEYS.some(dataKey => {
-      try { const saved=localStorage.getItem(dataKey); return saved && JSON.parse(saved).length>0 } catch { return false }
+      try {
+        const saved = localStorage.getItem(dataKey)
+        const parsed = saved ? JSON.parse(saved) : []
+        return Array.isArray(parsed) && parsed.length > 0
+      } catch {
+        return false
+      }
     })
-    if (!hasSavedRecords) return DEMO_DATA[key]
+    if (!hasSavedRecords) return DEMO_DATA_BY_KEY[key] || []
   }
-  return loadData(key)
+  const data = loadData(key)
+  return Array.isArray(data) ? data : []
 }
 
 function App() {
