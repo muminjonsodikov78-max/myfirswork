@@ -5,6 +5,7 @@ import session from 'express-session'
 import connectPgSimple from 'connect-pg-simple'
 import { rateLimit } from 'express-rate-limit'
 import { pool } from './config/database.js'
+import authRoutes from './routes/auth.js'
 
 if (!process.env.SESSION_SECRET || process.env.SESSION_SECRET.length < 32) {
   throw new Error('SESSION_SECRET kamida 32 belgidan iborat bo‘lishi kerak')
@@ -51,6 +52,8 @@ app.get('/api/health', async (_req, res) => {
     res.status(503).json({ status: 'error', database: 'unavailable' })
   }
 })
+
+app.use('/api/auth', authRoutes)
 
 app.use((error, _req, res, _next) => {
   console.error(error.message)
