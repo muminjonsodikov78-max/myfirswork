@@ -1,4 +1,4 @@
-﻿
+
 import { useEffect, useState } from 'react'
 import './App.css'
 
@@ -36,36 +36,102 @@ const loadData = (key, fallback = []) => {
 
 const makeId = () => Date.now() + Math.floor(Math.random() * 1000)
 
+const DEMO_KEYS = ['muhsin_students','muhsin_teachers','muhsin_classes','muhsin_weekly_schedules_v2','muhsin_attendance','muhsin_grades','muhsin_payments','muhsin_parents']
+const isDemoPreview = typeof window !== 'undefined' && window.location.hostname.includes('edusync-dashboard-redesign')
+const makeDemoData = () => {
+  const now = new Date()
+  const names = ['Azizbek Karimov','Madina Xasanova','Javohir Rahimov','Mohinur Ismoilova','Sardor Tursunov','Sevinch Abdullayeva','Bekzod Aliyev','Muslima Qodirova','Diyorbek Ergashev','Shahnoza Olimova','Asadbek Sobirov','Nilufar Yusupova','Ibrohim Nurmatov','Zuhra To‘xtayeva','Muhammadali Akbarov','Gulnoza Usmonova','Farrux Yo‘ldoshev','Madina Sodiqova']
+  const groups = ['Matematika 1-guruh','Ingliz tili 1-guruh','IT boshlang‘ich','Matematika 2-guruh']
+  const students = names.map((name,index) => {
+    const joined = new Date(now)
+    joined.setMonth(joined.getMonth() - Math.floor(index / 3))
+    joined.setDate(4 + (index % 20))
+    return { id: joined.getTime() + index, name, phone: '+998 9' + String(10000000 + index * 13791).slice(0,8), group: groups[index % 4], payment: '450000', status: index === 16 ? 'Nofaol' : 'Faol' }
+  })
+  const teachers = [
+    { id:101,name:'Dilshod Iskandarov',phone:'+998 90 123 45 67',subject:'Matematika',salary:'5000000',status:'Faol' },
+    { id:102,name:'Malika Raximova',phone:'+998 91 234 56 78',subject:'Ingliz tili',salary:'4800000',status:'Faol' },
+    { id:103,name:'Jasur Abdullayev',phone:'+998 93 345 67 89',subject:'Informatika',salary:'4500000',status:'Faol' },
+    { id:104,name:'Nodira Karimova',phone:'+998 94 456 78 90',subject:'Ona tili',salary:'4200000',status:'Faol' }
+  ]
+  const classes = [
+    { id:201,name:groups[0],teacherId:101,price:'450000',days:DAYS.slice(0,3),startTime:'09:00',endTime:'10:30',status:'Faol' },
+    { id:202,name:groups[1],teacherId:102,price:'450000',days:DAYS.slice(1,4),startTime:'10:00',endTime:'11:30',status:'Faol' },
+    { id:203,name:groups[2],teacherId:103,price:'500000',days:DAYS.slice(2,5),startTime:'14:00',endTime:'15:30',status:'Faol' },
+    { id:204,name:groups[3],teacherId:101,price:'450000',days:DAYS.slice(3,6),startTime:'16:00',endTime:'17:30',status:'Faol' }
+  ]
+  const todayName = DAYS[(now.getDay() + 6) % 7]
+  const schedules = [
+    { id:301,classId:201,day:todayName,subject:'Matematika',teacherId:101,startTime:'09:00',endTime:'10:30' },
+    { id:302,classId:202,day:todayName,subject:'Ingliz tili',teacherId:102,startTime:'11:00',endTime:'12:30' },
+    { id:303,classId:203,day:todayName,subject:'Informatika',teacherId:103,startTime:'14:00',endTime:'15:30' },
+    { id:304,classId:204,day:todayName,subject:'Matematika',teacherId:101,startTime:'16:00',endTime:'17:30' },
+    { id:305,classId:202,day:'Juma',subject:'Ingliz tili',teacherId:102,startTime:'15:00',endTime:'16:30' }
+  ]
+  const attendance = students.slice(0,14).map((student,index) => ({ id:401+index,studentId:student.id,date:now.toISOString().slice(0,10),status:index===4||index===10?'Kelmadi':'Keldi',note:'' }))
+  const grades = students.slice(0,9).map((student,index) => ({ id:501+index,studentId:student.id,subject:['Matematika','Ingliz tili','Informatika'][index%3],grade:String([5,4,5,4,3,5,4,5,4][index]),date:now.toISOString().slice(0,10) }))
+  const payments = students.slice(0,13).filter((_,index)=>index!==3&&index!==8).map((student,index)=>({ id:601+index,studentId:student.id,amount:index%4===0?'500000':'450000',date:now.toISOString().slice(0,10),note:'Oylik to‘lov' }))
+  const parents = students.slice(0,8).map((student,index)=>({ id:701+index,name:['Kamol Karimov','Zarina Xasanova','Otabek Rahimov','Dilorom Ismoilova'][index%4],phone:'+998 9'+String(20000000+index*13579).slice(0,8),studentId:student.id }))
+  return { students,teachers,classes,schedules,attendance,grades,payments,parents }
+}
+const DEMO_DATA = makeDemoData()
+const DEMO_DATA_BY_KEY = {
+  muhsin_students: DEMO_DATA.students,
+  muhsin_teachers: DEMO_DATA.teachers,
+  muhsin_classes: DEMO_DATA.classes,
+  muhsin_weekly_schedules_v2: DEMO_DATA.schedules,
+  muhsin_attendance: DEMO_DATA.attendance,
+  muhsin_grades: DEMO_DATA.grades,
+  muhsin_payments: DEMO_DATA.payments,
+  muhsin_parents: DEMO_DATA.parents
+}
+const loadAppData = key => {
+  if (isDemoPreview) {
+    const hasSavedRecords = DEMO_KEYS.some(dataKey => {
+      try {
+        const saved = localStorage.getItem(dataKey)
+        const parsed = saved ? JSON.parse(saved) : []
+        return Array.isArray(parsed) && parsed.length > 0
+      } catch {
+        return false
+      }
+    })
+    if (!hasSavedRecords) return DEMO_DATA_BY_KEY[key] || []
+  }
+  const data = loadData(key)
+  return Array.isArray(data) ? data : []
+}
+
 function App() {
   const [activePage, setActivePage] = useState('Dashboard')
 
   // Asosiy ma'lumotlar
   const [students, setStudents] = useState(() =>
-    loadData('muhsin_students')
+    loadAppData('muhsin_students')
   )
   const [teachers, setTeachers] = useState(() =>
-    loadData('muhsin_teachers')
+    loadAppData('muhsin_teachers')
   )
   const [classes, setClasses] = useState(() =>
-    loadData('muhsin_classes')
+    loadAppData('muhsin_classes')
   )
 
   // Yangi haftalik jadval alohida saqlanadi
   const [schedules, setSchedules] = useState(() =>
-    loadData('muhsin_weekly_schedules_v2')
+    loadAppData('muhsin_weekly_schedules_v2')
   )
 
   const [attendance, setAttendance] = useState(() =>
-    loadData('muhsin_attendance')
+    loadAppData('muhsin_attendance')
   )
   const [grades, setGrades] = useState(() =>
-    loadData('muhsin_grades')
+    loadAppData('muhsin_grades')
   )
   const [payments, setPayments] = useState(() =>
-    loadData('muhsin_payments')
+    loadAppData('muhsin_payments')
   )
   const [parents, setParents] = useState(() =>
-    loadData('muhsin_parents')
+    loadAppData('muhsin_parents')
   )
 
   // Qidiruv va formalar
@@ -592,6 +658,22 @@ const editLesson = lesson => {
   })
 
   const pageTitle = activePage
+  const weekdayNames = ['Yakshanba', 'Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba']
+  const todayName = weekdayNames[new Date().getDay()]
+  const todayLessons = schedules.filter(item => item.day === todayName).sort((a, b) => String(a.startTime || '').localeCompare(String(b.startTime || '')))
+  const totalPaid = payments.reduce((sum, item) => sum + (Number(String(item.amount || '').replace(/[^0-9.-]/g, '')) || 0), 0)
+  const studentsWithPayment = new Set(payments.map(item => String(item.studentId)))
+  const studentsWithoutPaymentRecord = students.filter(item => !studentsWithPayment.has(String(item.id)))
+  const classDistribution = classes.map(item => ({ name: item.name, count: students.filter(student => String(student.group || '').trim().toLowerCase() === String(item.name || '').trim().toLowerCase()).length })).filter(item => item.count > 0)
+  const recentActivity = [
+    ...students.slice(-4).map(item => ({ id: 's' + item.id, title: 'Yangi o‘quvchi qo‘shildi', detail: item.name, icon: '♙', date: Number(item.id) || 0 })),
+    ...payments.slice(-4).map(item => ({ id: 'p' + item.id, title: 'To‘lov qabul qilindi', detail: getStudentName(item.studentId) + ' · ' + (Number(item.amount || 0)).toLocaleString('uz-UZ') + ' so‘m', icon: '₸', date: new Date(item.date || 0).getTime() || Number(item.id) || 0 })),
+    ...grades.slice(-3).map(item => ({ id: 'g' + item.id, title: 'Yangi baho qo‘yildi', detail: getStudentName(item.studentId) + ' · ' + item.subject + ' · ' + item.grade, icon: '★', date: new Date(item.date || 0).getTime() || Number(item.id) || 0 }))
+  ].sort((a, b) => b.date - a.date).slice(0, 6)
+  const teacherActivity = teachers.map(teacher => ({ ...teacher, lessonCount: schedules.filter(item => String(item.teacherId) === String(teacher.id)).length })).sort((a, b) => b.lessonCount - a.lessonCount).slice(0, 5)
+  const monthLabels = Array.from({ length: 6 }, (_, index) => { const date = new Date(); date.setMonth(date.getMonth() - (5 - index)); return { key: date.getFullYear() + '-' + date.getMonth(), label: date.toLocaleDateString('uz-UZ', { month: 'short' }), month: date.getMonth(), year: date.getFullYear() } })
+  const studentGrowth = monthLabels.map(month => ({ ...month, count: students.filter(student => { const date = new Date(Number(student.id)); return !Number.isNaN(date.getTime()) && date.getMonth() === month.month && date.getFullYear() === month.year }).length }))
+  const maxGrowth = Math.max(1, ...studentGrowth.map(item => item.count))
 
   return (
     <div className="app">
@@ -842,7 +924,11 @@ const editLesson = lesson => {
             <h2>{pageTitle}</h2>
             <p className="breadcrumb">Bosh sahifa / {pageTitle}</p>
           </div>
-          <div className="top-date">{today}</div>
+          <div className="topbar-actions">
+            <div className="top-date">{today}</div>
+            <button className="notification-button" type="button" aria-label="Bildirishnomalar">♢<span /></button>
+            <div className="director-profile"><div className="director-avatar">D</div><div><strong>Direktor</strong><small>Muhsin Ta’lim Markazi</small></div></div>
+          </div>
         </header>
 
         {/* DASHBOARD */}
@@ -853,84 +939,54 @@ const editLesson = lesson => {
                 <span className="welcome-tag">BOSHQARUV PANELI</span>
                 <h1>Xush kelibsiz!</h1>
                 <p>MUHSIN TA'LIM MARKAZI boshqaruv tizimi</p>
+                {isDemoPreview && <span className="demo-data-notice">NAMUNAVIY DEMO MA’LUMOTLAR · HAQIQIY MIJOZLAR EMAS</span>}
               </div>
               <div className="welcome-art">🎓</div>
             </section>
 
             <section className="stats-grid">
-              <div className="stat-card">
-                <div className="stat-icon">♙</div>
-                <div className="stat-info">
-                  <span>O‘quvchilar</span>
-                  <div className="stat-number">{students.length}</div>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon">♟</div>
-                <div className="stat-info">
-                  <span>O‘qituvchilar</span>
-                  <div className="stat-number">{teachers.length}</div>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon">▤</div>
-                <div className="stat-info">
-                  <span>Sinflar va kurslar</span>
-                  <div className="stat-number">{classes.length}</div>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon">▦</div>
-                <div className="stat-info">
-                  <span>Haftalik darslar</span>
-                  <div className="stat-number">{schedules.length}</div>
-                </div>
-              </div>
+              <div className="stat-card"><div className="stat-icon">♙</div><div className="stat-info"><span>Jami o‘quvchilar</span><div className="stat-number">{students.length}</div><small>Markazdagi o‘quvchilar</small></div></div>
+              <div className="stat-card"><div className="stat-icon">♟</div><div className="stat-info"><span>O‘qituvchilar</span><div className="stat-number">{teachers.length}</div><small>Faol pedagoglar</small></div></div>
+              <div className="stat-card"><div className="stat-icon">✓</div><div className="stat-info"><span>Davomat</span><div className="stat-number">{attendance.length ? Math.round(attendance.filter(item => item.status === "Keldi").length / attendance.length * 100) : 0}%</div><small>{attendance.length} ta davomat qaydi</small></div></div>
+              <div className="stat-card"><div className="stat-icon">₸</div><div className="stat-info"><span>Oylik to‘lovlar</span><div className="stat-number stat-money">{totalPaid.toLocaleString("uz-UZ")}</div><small>So‘m · {payments.length} ta to‘lov</small></div></div>
             </section>
 
-            <section className="dashboard-insights">
-              <article className="dashboard-insight-card dashboard-income">
-                <div className="dashboard-insight-top">
-                  <span className="dashboard-insight-icon">↗</span>
-                  <span className="dashboard-insight-label">JAMI TUSHUM</span>
-                </div>
-                <strong>
-                  {payments.reduce((sum, item) => sum + (Number(String(item.amount || '').replace(/[^0-9.-]/g, '')) || 0), 0).toLocaleString('uz-UZ')} so‘m
-                </strong>
-                <p>{payments.length} ta to‘lov qayd etilgan</p>
+            <section className="dashboard-main-grid">
+              <article className="panel growth-panel">
+                <div className="panel-heading"><div><h3>O‘quvchilar sonining o‘sishi</h3><p>Oxirgi 6 oy bo‘yicha yangi qo‘shilganlar</p></div><span className="panel-chip">6 oy</span></div>
+                <div className="growth-chart">{studentGrowth.map(item => <div className="growth-column" key={item.key}><strong>{item.count}</strong><div className="growth-track"><span style={{ height: ((item.count / maxGrowth) * 100) + "%" }} /></div><small>{item.label}</small></div>)}</div>
               </article>
-
-              <article className="dashboard-insight-card dashboard-attendance">
-                <div className="dashboard-insight-top">
-                  <span className="dashboard-insight-icon">✓</span>
-                  <span className="dashboard-insight-label">DAVOMAT</span>
-                </div>
-                <strong>
-                  {attendance.length ? Math.round(attendance.filter(item => item.status === 'Keldi').length / attendance.length * 100) : 0}%
-                </strong>
-                <p>{attendance.filter(item => item.status === 'Keldi').length} ta kelgan / {attendance.length} ta qayd</p>
+              <article className="panel distribution-panel">
+                <div className="panel-heading"><div><h3>Sinflar taqsimoti</h3><p>Guruhlar bo‘yicha o‘quvchilar</p></div></div>
+                {classDistribution.length ? <div className="distribution-list">{classDistribution.slice(0, 5).map((item, index) => <div className="distribution-row" key={item.name}><div className="distribution-label"><span className={"distribution-dot dot-" + index} />{item.name}<strong>{item.count}</strong></div><div className="distribution-track"><span className={"distribution-fill fill-" + index} style={{ width: (item.count / Math.max(1, students.length) * 100) + "%" }} /></div></div>)}</div> : <div className="empty-message">Hozircha sinflar bo‘yicha mos o‘quvchi ma’lumoti yo‘q</div>}
               </article>
+            </section>
 
-              <article className="dashboard-insight-card dashboard-grades">
-                <div className="dashboard-insight-top">
-                  <span className="dashboard-insight-icon">★</span>
-                  <span className="dashboard-insight-label">O‘RTACHA BAHO</span>
-                </div>
-                <strong>
-                  {(() => {
-                    const numericGrades = grades.map(item => Number(item.grade)).filter(value => Number.isFinite(value) && value > 0)
-                    return numericGrades.length
-                      ? (numericGrades.reduce((sum, value) => sum + value, 0) / numericGrades.length).toFixed(1)
-                      : '—'
-                  })()}
-                </strong>
-                <p>{grades.length} ta baholash qayd etilgan</p>
+            <section className="dashboard-lower-grid">
+              <article className="panel upcoming-panel">
+                <div className="panel-heading"><div><h3>Yaqinlashayotgan darslar</h3><p>Bugun · {todayName}</p></div><span className="panel-chip">{todayLessons.length} ta dars</span></div>
+                {todayLessons.length ? <div className="upcoming-list">{todayLessons.slice(0, 5).map(item => <div className="upcoming-row" key={item.id}><div className="lesson-time">{item.startTime || "--:--"}<small>{item.endTime || ""}</small></div><div className="lesson-details"><strong>{item.subject || "Fan belgilanmagan"}</strong><span>{getClassName(item.classId)} · {getTeacherName(item.teacherId)}</span></div></div>)}</div> : <div className="empty-message">Bugun uchun dars jadvali kiritilmagan</div>}
+              </article>
+              <article className="panel payment-panel">
+                <div className="panel-heading"><div><h3>To‘lovlar holati</h3><p>Qayd etilgan to‘lovlar asosida</p></div></div>
+                <div className="payment-summary"><div className="payment-total"><span>Jami tushum</span><strong>{totalPaid.toLocaleString("uz-UZ")} so‘m</strong></div><div className="payment-stats"><div><span className="payment-dot paid-dot" />To‘lov qaydi bor<strong>{students.length - studentsWithoutPaymentRecord.length}</strong></div><div><span className="payment-dot unpaid-dot" />To‘lov qaydi yo‘q<strong>{studentsWithoutPaymentRecord.length}</strong></div></div><p className="payment-note">“Qayd yo‘q” — bu qarzdorlik tasdiqlanganini anglatmaydi.</p></div>
+              </article>
+            </section>
+
+            <section className="dashboard-lower-grid activity-teachers-grid">
+              <article className="panel activity-panel">
+                <div className="panel-heading"><div><h3>So‘nggi faoliyat</h3><p>Oxirgi kiritilgan ma’lumotlar</p></div></div>
+                {recentActivity.length ? <div className="activity-list">{recentActivity.map(item => <div className="activity-row" key={item.id}><span className="activity-icon">{item.icon}</span><div><strong>{item.title}</strong><small>{item.detail}</small></div></div>)}</div> : <div className="empty-message">Hozircha faoliyat qaydlari yo‘q</div>}
+              </article>
+              <article className="panel top-teachers-panel">
+                <div className="panel-heading"><div><h3>Eng faol o‘qituvchilar</h3><p>Jadvaldagi darslar soni bo‘yicha</p></div></div>
+                {teacherActivity.length ? <div className="table-scroll"><table className="data-table teacher-ranking-table"><thead><tr><th>O‘qituvchi</th><th>Fan</th><th>Darslar</th></tr></thead><tbody>{teacherActivity.map((teacher, index) => <tr key={teacher.id}><td><span className="teacher-rank">{index + 1}</span>{teacher.name}</td><td>{teacher.subject || "—"}</td><td><strong>{teacher.lessonCount}</strong></td></tr>)}</tbody></table></div> : <div className="empty-message">O‘qituvchilar ma’lumoti yo‘q</div>}
               </article>
             </section>
 
             <section className="panel">
               <div className="panel-heading">
-                <h3>So‘nggi qo‘shilgan o‘quvchilar</h3>
+                <h3>Yaqinda qo‘shilgan o‘quvchilar</h3>
               </div>
               {students.length === 0 ? (
                 <div className="empty-message">Hozircha o‘quvchilar yo‘q</div>
