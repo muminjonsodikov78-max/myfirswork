@@ -1,0 +1,270 @@
+
+        {/* DASHBOARD — MUHSIN TA'LIM */}
+        {activePage === 'Dashboard' && (
+          <div className="dashboard">
+            <section className="dashboard-stats">
+              <div className="dash-stat blue-stat">
+                <div className="dash-stat-icon">👥</div>
+                <div>
+                  <h3>{students.length}</h3>
+                  <p>O‘quvchilar</p>
+                  <small>↑ Faol o‘quvchilar</small>
+                </div>
+                <span className="stat-decoration">●</span>
+              </div>
+
+              <div className="dash-stat yellow-stat">
+                <div className="dash-stat-icon">👨‍🏫</div>
+                <div>
+                  <h3>{teachers.length}</h3>
+                  <p>O‘qituvchilar</p>
+                  <small>↑ Jamoamiz</small>
+                </div>
+                <span className="stat-decoration">●</span>
+              </div>
+
+              <div className="dash-stat blue-stat">
+                <div className="dash-stat-icon">▦</div>
+                <div>
+                  <h3>{classes.length}</h3>
+                  <p>Sinflar va kurslar</p>
+                  <small>↑ Ta'lim guruhlari</small>
+                </div>
+                <span className="stat-decoration">●</span>
+              </div>
+
+              <div className="dash-stat blue-stat">
+                <div className="dash-stat-icon">💳</div>
+                <div>
+                  <h3>
+                    {payments.reduce(
+                      (sum, item) =>
+                        sum + (Number(String(item.amount).replace(/\s/g, '')) || 0),
+                      0
+                    ).toLocaleString('uz-UZ')}
+                  </h3>
+                  <p>Jami tushum (so‘m)</p>
+                  <small>To‘lovlar hisoboti</small>
+                </div>
+                <span className="stat-decoration">●</span>
+              </div>
+            </section>
+
+            <section className="dashboard-middle">
+              <div className="dash-box growth-box">
+                <div className="dash-box-heading">
+                  <h3>📊 O‘quvchilar soni dinamikasi</h3>
+                  <span className="dash-period">Jami: {students.length}</span>
+                </div>
+
+                <div className="growth-chart">
+                  <div className="chart-y-labels">
+                    <span>100</span>
+                    <span>75</span>
+                    <span>50</span>
+                    <span>25</span>
+                    <span>0</span>
+                  </div>
+
+                  <div className="chart-area">
+                    <div className="chart-grid">
+                      <span></span><span></span><span></span>
+                      <span></span><span></span>
+                    </div>
+                    <svg viewBox="0 0 600 190" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="growthFill" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#1263df" stopOpacity=".30" />
+                          <stop offset="100%" stopColor="#1263df" stopOpacity=".02" />
+                        </linearGradient>
+                      </defs>
+                      <path
+                        d="M0 165 L100 115 L200 105 L300 78 L400 65 L500 42 L600 25 L600 190 L0 190 Z"
+                        fill="url(#growthFill)"
+                      />
+                      <polyline
+                        points="0,165 100,115 200,105 300,78 400,65 500,42 600,25"
+                        fill="none"
+                        stroke="#075ee8"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      {[0, 100, 200, 300, 400, 500, 600].map((x, i) => (
+                        <circle
+                          key={x}
+                          cx={x}
+                          cy={[165, 115, 105, 78, 65, 42, 25][i]}
+                          r="5"
+                          fill="#075ee8"
+                        />
+                      ))}
+                    </svg>
+                    <div className="chart-months">
+                      <span>Yan</span><span>Fev</span><span>Mar</span>
+                      <span>Apr</span><span>May</span><span>Iyun</span>
+                      <span>Iyul</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="dash-box lessons-box">
+                <div className="dash-box-heading">
+                  <h3>⭐ Yaqinlashayotgan darslar</h3>
+                  <button onClick={() => setActivePage('Dars jadvali')}>Barchasi →</button>
+                </div>
+
+                {schedules.length === 0 ? (
+                  <div className="empty-message">
+                    Hozircha darslar belgilanmagan
+                  </div>
+                ) : (
+                  schedules.slice(0, 5).map(lesson => (
+                    <div className="upcoming-lesson" key={lesson.id}>
+                      <span className="lesson-clock">◷</span>
+                      <div>
+                        <strong>{lesson.startTime}</strong>
+                        <p>{lesson.subject}</p>
+                        <small>{getClassName(lesson.classId)}</small>
+                      </div>
+                      <span className="lesson-teacher">
+                        {getTeacherName(lesson.teacherId)}
+                      </span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </section>
+
+            <section className="dashboard-bottom">
+              <div className="dash-box distribution-box">
+                <div className="dash-box-heading">
+                  <h3>Sinflar bo‘yicha taqsimot</h3>
+                </div>
+
+                <div className="distribution-content">
+                  <div className="donut-chart">
+                    <div>
+                      <strong>{students.length}</strong>
+                      <span>O‘quvchi</span>
+                    </div>
+                  </div>
+
+                  <div className="distribution-legend">
+                    <div><i className="legend-blue"></i> Faol <strong>{students.filter(s => s.status === 'Faol').length}</strong></div>
+                    <div><i className="legend-yellow"></i> Nofaol <strong>{students.filter(s => s.status !== 'Faol').length}</strong></div>
+                    <div><i className="legend-cyan"></i> Jami sinflar <strong>{classes.length}</strong></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="dash-box payments-box">
+                <div className="dash-box-heading">
+                  <h3>💳 To‘lovlar holati</h3>
+                  <button onClick={() => setActivePage('To‘lovlar')}>Barchasi →</button>
+                </div>
+
+                <h2>
+                  {payments.reduce(
+                    (sum, item) =>
+                      sum + (Number(String(item.amount).replace(/\s/g, '')) || 0),
+                    0
+                  ).toLocaleString('uz-UZ')} so‘m
+                </h2>
+                <p>Jami qabul qilingan to‘lovlar</p>
+
+                <div className="payment-progress">
+                  <span style={{
+                    width: `${students.length ? Math.min(100, payments.length / students.length * 100) : 0}%`
+                  }}></span>
+                </div>
+
+                <div className="payment-detail">
+                  <span>🟢 To‘lov yozuvlari</span>
+                  <strong>{payments.length}</strong>
+                </div>
+                <div className="payment-detail">
+                  <span>👥 O‘quvchilar</span>
+                  <strong>{students.length}</strong>
+                </div>
+              </div>
+
+              <div className="dash-box activity-box">
+                <div className="dash-box-heading">
+                  <h3>⚡ So‘nggi faoliyat</h3>
+                </div>
+
+                {[
+                  ...students.slice(-2).reverse().map(s => ({
+                    id: `s-${s.id}`,
+                    icon: '👤',
+                    title: 'Yangi o‘quvchi qo‘shildi',
+                    name: s.name
+                  })),
+                  ...payments.slice(-2).reverse().map(p => ({
+                    id: `p-${p.id}`,
+                    icon: '💳',
+                    title: 'To‘lov qabul qilindi',
+                    name: getStudentName(p.studentId)
+                  })),
+                  ...grades.slice(-2).reverse().map(g => ({
+                    id: `g-${g.id}`,
+                    icon: '📘',
+                    title: 'Baho qo‘yildi',
+                    name: getStudentName(g.studentId)
+                  }))
+                ].slice(0, 5).map(item => (
+                  <div className="activity-item" key={item.id}>
+                    <span>{item.icon}</span>
+                    <div>
+                      <strong>{item.title}</strong>
+                      <p>{item.name}</p>
+                    </div>
+                  </div>
+                ))}
+
+                {students.length === 0 && payments.length === 0 && grades.length === 0 && (
+                  <div className="empty-message">Hozircha faoliyat yo‘q</div>
+                )}
+              </div>
+            </section>
+
+            <section className="dashboard-teachers">
+              <div className="dash-box">
+                <div className="dash-box-heading">
+                  <h3>👥 O‘qituvchilar</h3>
+                  <button onClick={() => setActivePage('O‘qituvchilar')}>Barchasi →</button>
+                </div>
+
+                <div className="table-scroll">
+                  <table className="data-table">
+                    <thead>
+                      <tr>
+                        <th>№</th>
+                        <th>O‘qituvchi</th>
+                        <th>Fan</th>
+                        <th>Telefon</th>
+                        <th>Holati</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {teachers.slice(0, 5).map((teacher, index) => (
+                        <tr key={teacher.id}>
+                          <td>{index + 1}</td>
+                          <td><strong>{teacher.name}</strong></td>
+                          <td>{teacher.subject || '—'}</td>
+                          <td>{teacher.phone || '—'}</td>
+                          <td>{teacher.status || 'Faol'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {teachers.length === 0 && (
+                  <div className="empty-message">O‘qituvchilar hali qo‘shilmagan</div>
+                )}
+              </div>
+            </section>
+          </div>
+        )}

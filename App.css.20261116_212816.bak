@@ -1,0 +1,1922 @@
+﻿
+/* =========================================
+   MUHSIN TA'LIM — PROFESSIONAL DASHBOARD
+========================================= */
+
+:root {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #172033;
+  background: #f5f7fb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+
+  --primary: #4361ee;
+  --primary-dark: #304bd6;
+  --primary-light: #edf1ff;
+  --sidebar: #172554;
+  --text: #172033;
+  --muted: #8792a7;
+  --border: #e9edf4;
+  --surface: #ffffff;
+  --success: #16a36a;
+  --danger: #e05252;
+  --warning: #e99a35;
+  --shadow: 0 5px 22px rgba(28, 45, 85, 0.045);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background: #f5f7fb;
+  color: var(--text);
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #4361ee30;
+  outline-offset: 2px;
+}
+
+/* ASOSIY TUZILISH */
+
+.app {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* CHAP MENYU */
+
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #172554 0%, #111d43 100%);
+  color: #fff;
+  padding: 25px 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 5px 0 25px rgba(15, 23, 42, 0.04);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 10px 30px;
+  min-width: 0;
+}
+
+.brand-logo,
+.brand-icon {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #60a5fa, #4361ee);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  box-shadow: 0 5px 18px #4361ee55;
+}
+
+.brand h2 {
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.brand p {
+  color: #a9bee9;
+  font-size: 10px;
+  margin-top: 4px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.menu-group {
+  margin-top: 15px;
+}
+
+.menu-title {
+  color: #91a4ce;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  padding: 10px 12px;
+  text-transform: uppercase;
+}
+
+.menu-item {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: #c5d1e9;
+  padding: 12px 13px;
+  border-radius: 10px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  transition: all 0.2s ease;
+}
+
+.menu-item:hover {
+  background: #ffffff12;
+  color: #fff;
+  transform: translateX(2px);
+}
+
+.menu-item.selected {
+  background: linear-gradient(120deg, #4361ee, #5278f5);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 5px 15px #4361ee40;
+}
+
+.menu-icon {
+  width: 22px;
+  min-width: 22px;
+  text-align: center;
+  font-size: 17px;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  padding-top: 25px;
+}
+
+.profile {
+  border-top: 1px solid #ffffff20;
+  padding: 18px 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #3155c8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.profile h4 {
+  font-size: 13px;
+}
+
+.profile p {
+  color: #a9b7d2;
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+/* ASOSIY ISH MAYDONI */
+
+.main {
+  flex: 1;
+  min-width: 0;
+  width: calc(100% - 260px);
+  padding: 30px 35px;
+  overflow-x: hidden;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 28px;
+  min-width: 0;
+}
+
+.breadcrumb {
+  color: #7d899e;
+  font-size: 13px;
+}
+
+.subtitle {
+  color: #98a2b3;
+  font-size: 12px;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+.top-date {
+  color: #475569;
+  font-size: 12px;
+  background: white;
+  border: 1px solid var(--border);
+  padding: 11px 16px;
+  border-radius: 10px;
+  white-space: nowrap;
+  box-shadow: var(--shadow);
+}
+
+/* SAHIFA SARLAVHASI */
+
+.page-heading {
+  margin-bottom: 22px;
+}
+
+.page-heading h1 {
+  font-size: 25px;
+  line-height: 1.4;
+  margin-top: 8px;
+  color: #172033;
+  font-weight: 700;
+}
+
+/* XUSH KELIBSIZ BLOKI */
+
+.welcome {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(115deg, #2547bd, #5278f5);
+  color: white;
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 25px;
+  min-height: 180px;
+  box-shadow: 0 10px 30px #4361ee25;
+}
+
+.welcome h1 {
+  position: relative;
+  z-index: 1;
+  font-size: 26px;
+  line-height: 1.4;
+  margin: 12px 0 8px;
+}
+
+.welcome p {
+  position: relative;
+  z-index: 1;
+  color: #dce6ff;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.welcome-tag {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  background: #ffffff22;
+  border: 1px solid #ffffff40;
+  border-radius: 20px;
+  padding: 7px 13px;
+  font-size: 11px;
+}
+
+.welcome-art {
+  position: absolute;
+  right: 55px;
+  top: 25px;
+  font-size: 100px;
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+/* STATISTIKA KARTALARI */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 25px;
+}
+
+.stat-card {
+  min-width: 0;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 21px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: var(--shadow);
+  transition: all 0.25s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(28, 45, 85, 0.08);
+}
+
+.stat-icon {
+  width: 49px;
+  height: 49px;
+  min-width: 49px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+}
+
+.blue { background: #e4edff; }
+.purple { background: #f0eaff; }
+.green { background: #e0f8ed; }
+.orange { background: #fff0dc; }
+
+.stat-info {
+  min-width: 0;
+}
+
+.stat-info p {
+  font-size: 12px;
+  color: #8a96aa;
+  margin-bottom: 5px;
+}
+
+.stat-info h3,
+.stat-card h3 {
+  font-size: 23px;
+  line-height: 1.4;
+  margin-bottom: 3px;
+  color: #172033;
+}
+
+.stat-info small {
+  font-size: 10px;
+  color: #a0aabb;
+}
+
+.stat-card p {
+  color: #94a3b8;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* UMUMIY PANEL */
+
+.panel,
+.students-panel {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow);
+}
+
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.panel-heading h2 {
+  font-size: 17px;
+  line-height: 1.4;
+  color: #202c40;
+}
+
+.panel-heading p {
+  margin-top: 5px;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.empty-panel {
+  text-align: center;
+  padding: 40px 15px;
+  color: #94a3b8;
+}
+
+.empty-icon {
+  font-size: 38px;
+  margin-bottom: 12px;
+}
+
+.empty-panel button {
+  margin-top: 20px;
+}
+
+/* O'QUVCHILAR VA O'QITUVCHILAR */
+
+.students-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.students-heading > div {
+  min-width: 0;
+}
+
+.students-heading h2 {
+  font-size: 20px;
+  color: #202c40;
+  line-height: 1.4;
+}
+
+.students-heading p {
+  color: #94a3b8;
+  font-size: 12px;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+/* ASOSIY TUGMA */
+
+.add-student {
+  border: none;
+  background: linear-gradient(120deg, #4361ee, #5278f5);
+  color: white;
+  padding: 11px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px #4361ee25;
+}
+
+.add-student:hover {
+  background: #304bd6;
+  transform: translateY(-2px);
+  box-shadow: 0 7px 16px #4361ee35;
+}
+
+/* QISQA STATISTIKA */
+
+.student-summary {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.student-summary > div {
+  flex: 1;
+  min-width: 125px;
+  background: #f8faff;
+  border: 1px solid #edf0f6;
+  border-radius: 12px;
+  padding: 15px 18px;
+}
+
+.student-summary strong {
+  display: block;
+  font-size: 22px;
+  color: #3155c8;
+  line-height: 1.4;
+}
+
+.student-summary span {
+  display: block;
+  font-size: 11px;
+  color: #7c899e;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+/* QIDIRUV */
+
+.student-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #e5eaf2;
+  border-radius: 11px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  background: #f8faff;
+  transition: 0.2s;
+}
+
+.student-search:focus-within {
+  border-color: #5278f5;
+  background: white;
+  box-shadow: 0 0 0 3px #4361ee12;
+}
+
+.student-search .search-icon {
+  font-size: 20px;
+  color: #94a3b8;
+}
+
+.student-search input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13px;
+  color: #334155;
+}
+
+.student-search input::placeholder {
+  color: #a0aabd;
+}
+
+/* JADVALLAR */
+
+.students-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e9edf4;
+  border-radius: 12px;
+}
+
+.students-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 650px;
+  background: white;
+}
+
+.students-table th {
+  background: #f8faff;
+  color: #7b879a;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: left;
+  padding: 15px 13px;
+  border-bottom: 1px solid #e9edf4;
+  white-space: nowrap;
+}
+
+.students-table td {
+  padding: 14px 13px;
+  border-bottom: 1px solid #f0f2f7;
+  font-size: 13px;
+  color: #3d4a60;
+  vertical-align: middle;
+  line-height: 1.5;
+}
+
+.students-table tr:last-child td {
+  border-bottom: none;
+}
+
+.students-table tbody tr {
+  transition: background 0.2s;
+}
+
+.students-table tbody tr:hover td {
+  background: #f8faff;
+}
+
+/* STATUS */
+
+.student-status {
+  display: inline-block;
+  padding: 5px 11px;
+  border-radius: 20px;
+  background: #e0f8ed;
+  color: #128451;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.student-status.inactive {
+  background: #fee8e8;
+  color: #d33c3c;
+}
+
+/* AMALLAR */
+
+.student-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+.student-actions button {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 11px;
+  font-size: 12px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.student-actions button:first-child {
+  background: #e8efff;
+  color: #3155c8;
+}
+
+.student-actions button:last-child {
+  background: #fee8e8;
+  color: #d33c3c;
+}
+
+.student-actions button:hover {
+  opacity: 0.75;
+  transform: translateY(-1px);
+}
+
+.no-students {
+  text-align: center;
+  padding: 35px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+/* DASHBOARD O'QUVCHI KARTASI */
+
+.dashboard-student-count {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 19px;
+  background: #f8faff;
+  border: 1px solid #e9edf4;
+  border-radius: 13px;
+}
+
+.dashboard-count-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 13px;
+  background: #e4edff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.dashboard-student-count h3 {
+  font-size: 21px;
+  color: #3155c8;
+}
+
+.dashboard-student-count p {
+  color: #7b879a;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* MODAL OYNA */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.62);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.student-modal {
+  background: white;
+  color: #26344a;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: 0 25px 70px #0003;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalIn 0.2s ease;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.modal-heading h2 {
+  font-size: 19px;
+  line-height: 1.4;
+  color: #202c40;
+}
+
+.close-modal {
+  border: none;
+  background: #f1f4f9;
+  color: #64748b;
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  font-size: 20px;
+  transition: 0.2s;
+}
+
+.close-modal:hover {
+  background: #fee8e8;
+  color: #dc2626;
+}
+
+.student-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.student-modal label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 4px;
+}
+
+.student-modal input,
+.student-modal select,
+.student-modal textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 12px 13px;
+  border: 1px solid #dce3ed;
+  border-radius: 10px;
+  background: #fff !important;
+  color: #26344a !important;
+  -webkit-text-fill-color: #26344a !important;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 400;
+  outline: none;
+  opacity: 1 !important;
+  caret-color: #26344a !important;
+  transition: 0.2s;
+}
+
+.student-modal input::placeholder,
+.student-modal textarea::placeholder {
+  color: #a0aabd !important;
+  -webkit-text-fill-color: #a0aabd !important;
+  opacity: 1 !important;
+}
+
+.student-modal input:focus,
+.student-modal select:focus,
+.student-modal textarea:focus {
+  border-color: #5278f5;
+  box-shadow: 0 0 0 3px #4361ee13;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.cancel-button {
+  background: #f1f4f9;
+  color: #475569;
+  border: none;
+  border-radius: 9px;
+  padding: 11px 18px;
+  transition: 0.2s;
+}
+
+.cancel-button:hover {
+  background: #e5eaf2;
+}
+
+.modal-buttons .add-student {
+  padding: 11px 21px;
+}
+
+/* JADVAL VA FORM ELEMENTLARI */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.form-grid label {
+  min-width: 0;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea {
+  width: 100%;
+  min-width: 0;
+}
+
+input, select, textarea {
+  max-width: 100%;
+}
+
+select {
+  cursor: pointer;
+}
+
+/* UMUMIY TUGMALAR */
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* PASTKI QISM */
+
+footer {
+  color: #9aa5b5;
+  font-size: 11px;
+  text-align: center;
+  padding: 22px 0;
+}
+
+/* BOSHQALAR */
+
+.student-modal textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.student-summary > div,
+.stat-card,
+.panel,
+.students-panel {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+/* TABLET */
+
+@media (max-width: 1100px) {
+  .sidebar {
+    width: 230px;
+    min-width: 230px;
+  }
+
+  .main {
+    width: calc(100% - 230px);
+    padding: 25px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stat-card {
+    padding: 17px;
+  }
+}
+
+/* KICHIK NOUTBUK */
+
+@media (max-width: 850px) {
+  .sidebar {
+    width: 210px;
+    min-width: 210px;
+    padding: 20px 12px;
+  }
+
+  .main {
+    width: calc(100% - 210px);
+    padding: 20px;
+  }
+
+  .brand h2 {
+    font-size: 14px;
+  }
+
+  .menu-item {
+    font-size: 12px;
+    padding: 11px 9px;
+  }
+}
+
+/* TELEFON */
+
+@media (max-width: 700px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-width: 0;
+    min-height: auto;
+    padding: 15px;
+  }
+
+  .brand {
+    padding-bottom: 15px;
+  }
+
+  .menu {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .menu-group {
+    margin-top: 5px;
+  }
+
+  .menu-item {
+    font-size: 11px;
+    padding: 10px 8px;
+    gap: 7px;
+  }
+
+  .menu-icon {
+    font-size: 15px;
+    width: 19px;
+    min-width: 19px;
+  }
+
+  .sidebar-bottom {
+    display: none;
+  }
+
+  .main {
+    width: 100%;
+    padding: 18px 13px;
+  }
+
+  .topbar {
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .top-date {
+    font-size: 11px;
+    padding: 8px 11px;
+  }
+
+  .welcome {
+    padding: 22px;
+    min-height: 160px;
+    border-radius: 15px;
+  }
+
+  .welcome h1 {
+    font-size: 20px;
+  }
+
+  .welcome p {
+    font-size: 12px;
+    max-width: 80%;
+  }
+
+  .welcome-art {
+    right: 15px;
+    top: 40px;
+    font-size: 65px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 13px;
+    gap: 9px;
+  }
+
+  .stat-icon {
+    width: 38px;
+    min-width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+
+  .stat-info h3,
+  .stat-card h3 {
+    font-size: 18px;
+  }
+
+  .stat-info p,
+  .stat-card p {
+    font-size: 10px;
+  }
+
+  .students-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .students-heading h2 {
+    font-size: 18px;
+  }
+
+  .students-heading .add-student {
+    width: 100%;
+  }
+
+  .panel,
+  .students-panel {
+    padding: 15px;
+    border-radius: 13px;
+  }
+
+  .panel-heading h2 {
+    font-size: 15px;
+  }
+
+  .student-modal {
+    padding: 20px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-heading h1 {
+    font-size: 21px;
+  }
+}
+
+/* JUDA KICHIK TELEFON */
+
+@media (max-width: 400px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .student-summary > div {
+    min-width: 100%;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+  }
+
+  .modal-buttons button {
+    width: 100%;
+  }
+
+  .student-modal {
+    padding: 17px;
+  }
+}
+
+/* CHOP ETISH */
+
+@media print {
+  .sidebar,
+  .topbar,
+  .add-student,
+  .student-actions,
+  .student-search,
+  .modal-overlay {
+    display: none !important;
+  }
+
+  .app {
+    display: block;
+  }
+
+  .main {
+    width: 100%;
+    padding: 0;
+  }
+
+  body {
+    background: white;
+  }
+
+  .panel,
+  .students-panel {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+
+  .students-table-wrap {
+    overflow: visible;
+  }
+
+  .students-table {
+    min-width: 0;
+  }
+}
+
+
+/* =====================================
+   O'QUVCHILAR KARTOCHKALARI
+===================================== */
+
+.student-cards-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 22px 0;
+  flex-wrap: wrap;
+}
+
+.student-cards-toolbar .student-search {
+  flex: 1;
+  min-width: 220px;
+  max-width: 420px;
+  margin: 0;
+}
+
+.student-total {
+  color: #788196;
+  font-size: 13px;
+}
+
+.student-total strong {
+  color: #25213f;
+}
+
+.student-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.student-card {
+  overflow: hidden;
+  min-width: 0;
+  background: #fff;
+  border: 1px solid #eceaf1;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(35, 25, 65, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.student-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(35, 25, 65, 0.12);
+}
+
+.student-card-cover {
+  height: 82px;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 12px;
+  background:
+    repeating-radial-gradient(circle at 50% 115%, transparent 0 15px, rgba(255,255,255,0.13) 16px 18px, transparent 19px 29px),
+    linear-gradient(135deg, #65517f, #98739b);
+}
+
+.student-card-number {
+  color: #fff;
+  background: rgba(255,255,255,0.17);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 20px;
+  padding: 4px 9px;
+  font-size: 11px;
+}
+
+.student-card-body {
+  position: relative;
+  padding: 0 15px 16px;
+  text-align: center;
+}
+
+.student-card-avatar {
+  width: 68px;
+  height: 68px;
+  margin: -34px auto 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #eee5fb, #d8c9ec);
+  color: #5d477b;
+  font-size: 21px;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(30,20,50,0.16);
+}
+
+.student-card-name {
+  margin: 0;
+  color: #29243c;
+  font-size: 15px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.student-card-group {
+  margin: 6px 0 16px;
+  color: #8a8497;
+  font-size: 12px;
+  min-height: 18px;
+}
+
+.student-card-details {
+  text-align: left;
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  background: #f8f7fa;
+  border-radius: 10px;
+}
+
+.student-card-details div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.student-card-details span {
+  color: #9993a4;
+  font-size: 11px;
+}
+
+.student-card-details strong {
+  color: #39334b;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.student-card-bottom {
+  display: flex;
+  justify-content: center;
+  margin: 13px 0;
+}
+
+.student-card-status {
+  display: inline-block;
+  padding: 5px 13px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.student-card-status.active {
+  color: #16834b;
+  background: #e5f7ed;
+}
+
+.student-card-status.inactive {
+  color: #a45a35;
+  background: #fff0e8;
+}
+
+.student-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.student-card-actions button {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.student-card-edit {
+  color: #51406f;
+  background: #fff;
+  border: 1px solid #6c568d;
+}
+
+.student-card-edit:hover {
+  color: #fff;
+  background: #65517f;
+}
+
+.student-card-delete {
+  color: #c14e58;
+  background: #fff;
+  border: 1px solid #f0cbd0;
+}
+
+.student-card-delete:hover {
+  color: #fff;
+  background: #c14e58;
+}
+
+@media (max-width: 1150px) {
+  .student-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 850px) {
+  .student-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .student-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .student-cards-toolbar {
+    align-items: stretch;
+  }
+
+  .student-cards-toolbar .student-search {
+    max-width: none;
+  }
+}
+/* =====================================
+   IXCHAM O'QUVCHI KARTOCHKALARI
+===================================== */
+
+.student-cards-grid {
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.student-card {
+  border-radius: 13px;
+}
+
+.student-card-cover {
+  height: 48px;
+}
+
+.student-card-body {
+  padding: 0 12px 14px;
+}
+
+.student-card-avatar {
+  width: 52px;
+  height: 52px;
+  margin: -26px auto 8px;
+  font-size: 17px;
+  border-width: 3px;
+}
+
+.student-card-name {
+  font-size: 14px;
+  min-height: 20px;
+}
+
+.student-card-group {
+  margin: 5px 0 12px;
+  font-size: 11px;
+  min-height: 16px;
+}
+
+.student-card-details,
+.student-card-actions {
+  display: none;
+}
+
+.student-card-bottom {
+  margin: 8px 0 10px;
+}
+
+.student-card-detail-btn {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #6c568d;
+  border-radius: 8px;
+  background: #f7f3fc;
+  color: #51406f;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.student-card-detail-btn:hover {
+  background: #65517f;
+  color: white;
+}
+
+/* =====================================
+   O'QUVCHI BATAFSIL OYNASI
+===================================== */
+
+.student-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(25, 20, 38, 0.58);
+  backdrop-filter: blur(4px);
+}
+
+.student-modal {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 25px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  animation: studentModalOpen 0.2s ease;
+}
+
+@keyframes studentModalOpen {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.student-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.student-modal-header span {
+  color: #91869f;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.student-modal-header h2 {
+  margin: 7px 0;
+  color: #29243c;
+  font-size: 20px;
+  overflow-wrap: anywhere;
+}
+
+.student-modal-close {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: #f1eef5;
+  color: #51406f;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.student-modal-avatar {
+  width: 68px;
+  height: 68px;
+  margin: 15px auto 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #eee5fb, #d8c9ec);
+  color: #5d477b;
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.student-modal-info {
+  display: grid;
+  gap: 10px;
+}
+
+.student-modal-info div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 11px 13px;
+  border-radius: 9px;
+  background: #f8f7fa;
+}
+
+.student-modal-info span {
+  color: #9993a4;
+  font-size: 11px;
+}
+
+.student-modal-info strong {
+  color: #39334b;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.student-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.student-modal-actions button {
+  flex: 1;
+  padding: 11px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 520px) {
+  .student-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .student-modal {
+    padding: 18px;
+  }
+}
+
+/* O'QUVCHI BATAFSIL MA'LUMOT OYNASI */
+.student-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 23, 42, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.student-detail-modal {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  color: #26344a;
+}
+
+.student-detail-modal h2 {
+  margin: 0 35px 24px 0;
+  font-size: 22px;
+}
+
+.student-detail-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: none;
+  background: transparent;
+  font-size: 30px;
+  cursor: pointer;
+  color: #64748b;
+}
+
+.student-detail-info {
+  display: grid;
+  gap: 14px;
+}
+
+.student-detail-info p {
+  margin: 0;
+  padding: 12px;
+  background: #f5f7fb;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.student-detail-info strong {
+  color: #334155;
+  margin-right: 6px;
+}
+
+.student-detail-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.student-detail-actions button {
+  flex: 1;
+  min-height: 40px;
+  cursor: pointer;
+}
+
+@media (max-width: 520px) {
+  .student-detail-modal {
+    padding: 22px 18px;
+  }
+}
+
+/* O'QUVCHI BATAFSIL MA'LUMOT OYNASI */
+.student-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 23, 42, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.student-detail-modal {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  color: #26344a;
+}
+
+.student-detail-modal h2 {
+  margin: 0 35px 24px 0;
+  font-size: 22px;
+}
+
+.student-detail-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: none;
+  background: transparent;
+  font-size: 30px;
+  cursor: pointer;
+  color: #64748b;
+}
+
+.student-detail-info {
+  display: grid;
+  gap: 14px;
+}
+
+.student-detail-info p {
+  margin: 0;
+  padding: 12px;
+  background: #f5f7fb;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.student-detail-info strong {
+  color: #334155;
+  margin-right: 6px;
+}
+
+.student-detail-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.student-detail-actions button {
+  flex: 1;
+  min-height: 40px;
+  cursor: pointer;
+}
+
+@media (max-width: 520px) {
+  .student-detail-modal {
+    padding: 22px 18px;
+  }
+}
+
+
+/* O'QITUVCHI BATAFSIL OYNASI */
+.teacher-detail-btn {
+  background: #eef2ff;
+  color: #4f46e5;
+  border: 1px solid #dbe3ff;
+  padding: 8px 13px;
+  border-radius: 9px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.teacher-detail-btn:hover {
+  background: #4f46e5;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.teacher-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.teacher-detail-modal {
+  width: 100%;
+  max-width: 470px;
+  background: #fff;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 25px 80px rgba(0,0,0,0.25);
+  animation: teacherModalIn 0.25s ease;
+}
+
+@keyframes teacherModalIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.teacher-detail-header {
+  position: relative;
+  text-align: center;
+  padding: 32px 22px 25px;
+  background: linear-gradient(135deg, #4338ca, #6366f1, #818cf8);
+  color: white;
+}
+
+.teacher-detail-close {
+  position: absolute;
+  right: 17px;
+  top: 13px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.teacher-detail-avatar {
+  width: 78px;
+  height: 78px;
+  margin: 0 auto 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: white;
+  color: #4f46e5;
+  font-size: 27px;
+  font-weight: 800;
+  border: 4px solid rgba(255,255,255,0.4);
+}
+
+.teacher-detail-header h2 {
+  margin: 0 0 5px;
+  font-size: 22px;
+  color: white;
+}
+
+.teacher-detail-subtitle {
+  display: block;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.teacher-detail-status {
+  display: inline-block;
+  margin-top: 13px;
+  padding: 5px 15px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.2);
+  color: white;
+}
+
+.teacher-detail-body {
+  padding: 22px;
+  display: grid;
+  gap: 12px;
+}
+
+.teacher-info-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px;
+  border: 1px solid #e8eaf2;
+  background: #f8faff;
+  border-radius: 13px;
+}
+
+.teacher-info-card > span {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9eaff;
+  border-radius: 12px;
+  font-size: 20px;
+}
+
+.teacher-info-card div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.teacher-info-card small {
+  color: #8991a5;
+  font-size: 12px;
+}
+
+.teacher-info-card strong {
+  color: #26344a;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.teacher-detail-footer {
+  display: flex;
+  gap: 10px;
+  padding: 0 22px 22px;
+}
+
+.teacher-detail-footer button {
+  flex: 1;
+  padding: 12px;
+  border: 0;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.teacher-detail-edit {
+  background: #4f46e5;
+  color: white;
+}
+
+.teacher-detail-done {
+  background: #eef0f5;
+  color: #475569;
+}
+
+@media (max-width: 480px) {
+  .teacher-detail-modal { max-width: 100%; }
+  .teacher-detail-header { padding-top: 28px; }
+  .teacher-detail-body { padding: 16px; }
+}

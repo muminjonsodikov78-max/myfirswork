@@ -1,0 +1,610 @@
+
+/* =========================================
+   MUHSIN TA'LIM — YANGI DASHBOARD
+========================================= */
+
+:root {
+  --navy: #03245b;
+  --navy2: #063b91;
+  --royal: #0758ce;
+  --gold: #ffc400;
+  --dashboard-bg: #f3f6fc;
+}
+
+body {
+  background: var(--dashboard-bg);
+}
+
+.app {
+  background: var(--dashboard-bg);
+}
+
+.sidebar {
+  background: linear-gradient(180deg, #031d49, #032b68);
+  width: 225px;
+  min-width: 225px;
+  padding: 25px 10px;
+}
+
+.brand {
+  min-height: 145px;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 7px;
+  padding-bottom: 25px;
+}
+
+.brand-icon {
+  width: 75px;
+  height: 75px;
+  border-radius: 0;
+  background: transparent;
+  color: #ffcf19;
+  font-size: 64px;
+  box-shadow: none;
+}
+
+.brand h2 {
+  color: #ffcf19;
+  font-size: 23px;
+  letter-spacing: 1px;
+}
+
+.brand span {
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.menu {
+  gap: 5px;
+}
+
+.menu-title {
+  display: none;
+}
+
+.menu-item {
+  min-height: 48px;
+  border-radius: 0 12px 12px 0;
+  color: white;
+  font-size: 14px;
+  padding: 12px 15px;
+}
+
+.menu-item.selected {
+  color: #06245b;
+  background: linear-gradient(90deg, #ffca08, #ffd83e);
+  box-shadow: none;
+  font-weight: 700;
+}
+
+.menu-item:hover {
+  background-color: #ffffff18;
+  transform: none;
+}
+
+.menu-item.selected:hover {
+  background: #ffd43b;
+  color: #06245b;
+}
+
+.menu-icon {
+  font-size: 20px;
+}
+
+.sidebar-bottom {
+  border-top: 1px solid #ffffff20;
+  padding-top: 20px;
+}
+
+.profile {
+  border: none;
+}
+
+.profile h4 {
+  color: white;
+}
+
+.main {
+  width: calc(100% - 225px);
+  padding: 0 15px 20px;
+  background: #f3f6fc;
+  overflow-x: hidden;
+}
+
+.topbar {
+  min-height: 95px;
+  background: white;
+  margin: 0 -15px 15px;
+  padding: 15px 30px;
+  border-bottom: 1px solid #e6ebf5;
+}
+
+.topbar h2 {
+  font-size: 23px;
+  color: #071d50;
+}
+
+.breadcrumb {
+  color: #65748d;
+}
+
+.top-date {
+  border: none;
+  background: #f3f6fc;
+}
+
+/* DASHBOARD GRID */
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 0;
+}
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.dash-stat {
+  min-height: 130px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: white;
+  box-shadow: 0 5px 14px #123b7820;
+}
+
+.blue-stat {
+  background: linear-gradient(115deg, #063d9b, #0766df);
+}
+
+.yellow-stat {
+  background: linear-gradient(115deg, #ffcc13, #ffb900);
+  color: #071d50;
+}
+
+.dash-stat-icon {
+  font-size: 37px;
+  min-width: 45px;
+}
+
+.dash-stat h3 {
+  font-size: clamp(20px, 2vw, 31px);
+  font-weight: 800;
+  line-height: 1.3;
+  position: relative;
+  z-index: 1;
+}
+
+.dash-stat p {
+  font-size: 13px;
+  margin-top: 5px;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+}
+
+.dash-stat small {
+  display: block;
+  margin-top: 12px;
+  font-size: 11px;
+  color: #d9edff;
+}
+
+.yellow-stat small {
+  color: #135b29;
+}
+
+.stat-decoration {
+  position: absolute;
+  right: 15px;
+  bottom: -50px;
+  font-size: 115px;
+  opacity: .12;
+}
+
+/* PANELLAR */
+
+.dashboard-middle {
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  gap: 12px;
+}
+
+.dashboard-bottom {
+  display: grid;
+  grid-template-columns: 1.05fr 1.05fr 1fr;
+  gap: 12px;
+}
+
+.dash-box {
+  background: white;
+  border: 1px solid #e8edf6;
+  border-radius: 15px;
+  padding: 17px;
+  min-width: 0;
+  box-shadow: 0 3px 12px #123b780c;
+}
+
+.dash-box-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.dash-box-heading h3 {
+  font-size: 15px;
+  color: #081d4b;
+  line-height: 1.4;
+}
+
+.dash-box-heading button {
+  background: none;
+  border: none;
+  color: #075be0;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dash-period {
+  background: #edf3ff;
+  padding: 7px 12px;
+  color: #075be0;
+  border-radius: 9px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* GRAFIK */
+
+.growth-chart {
+  display: flex;
+  height: 210px;
+  padding-top: 5px;
+}
+
+.chart-y-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 10px 25px 0;
+  color: #152b55;
+  font-size: 11px;
+}
+
+.chart-area {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  height: 180px;
+}
+
+.chart-grid {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chart-grid span {
+  border-top: 1px solid #e9eef8;
+  width: 100%;
+}
+
+.chart-area svg {
+  width: 100%;
+  height: 180px;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+
+.chart-months {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #172b52;
+  padding-top: 4px;
+}
+
+/* DARSLAR */
+
+.upcoming-lesson {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 0;
+  border-bottom: 1px solid #edf0f6;
+}
+
+.upcoming-lesson:last-child {
+  border: none;
+}
+
+.lesson-clock {
+  font-size: 21px;
+  color: #174fae;
+}
+
+.upcoming-lesson strong {
+  font-size: 12px;
+  color: #10234b;
+}
+
+.upcoming-lesson p {
+  font-size: 12px;
+  color: #172b52;
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+.upcoming-lesson small {
+  color: #8290a6;
+  font-size: 10px;
+}
+
+.lesson-teacher {
+  margin-left: auto;
+  background: #eaf1ff;
+  color: #0758ce;
+  padding: 7px;
+  border-radius: 20px;
+  font-size: 10px;
+}
+
+/* DIAGRAMMA */
+
+.distribution-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
+  min-height: 170px;
+}
+
+.donut-chart {
+  width: 145px;
+  height: 145px;
+  min-width: 145px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #0758ce 0deg 180deg,
+    #ffbf00 180deg 270deg,
+    #31b9f4 270deg 360deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-chart > div {
+  width: 95px;
+  height: 95px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.donut-chart strong {
+  font-size: 24px;
+  color: #10285b;
+}
+
+.donut-chart span {
+  font-size: 10px;
+  color: #758198;
+}
+
+.distribution-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-size: 11px;
+  color: #273958;
+}
+
+.distribution-legend div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.distribution-legend strong {
+  margin-left: 5px;
+}
+
+.distribution-legend i {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+
+.legend-blue { background: #0758ce; }
+.legend-yellow { background: #ffbf00; }
+.legend-cyan { background: #31b9f4; }
+
+/* TO'LOVLAR */
+
+.payments-box h2 {
+  color: #10285b;
+  font-size: 23px;
+  margin-top: 20px;
+  overflow-wrap: anywhere;
+}
+
+.payments-box > p {
+  color: #77849b;
+  font-size: 11px;
+  margin-top: 8px;
+}
+
+.payment-progress {
+  width: 100%;
+  height: 9px;
+  background: #eaf0fc;
+  border-radius: 20px;
+  margin: 18px 0;
+  overflow: hidden;
+}
+
+.payment-progress span {
+  display: block;
+  height: 100%;
+  background: #075be0;
+  border-radius: 20px;
+}
+
+.payment-detail {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 13px;
+  font-size: 12px;
+  color: #273958;
+}
+
+/* FAOLIYAT */
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 0;
+  border-bottom: 1px solid #edf0f6;
+}
+
+.activity-item > span {
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+  background: #e7f5ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.activity-item strong {
+  font-size: 11px;
+  color: #152b52;
+}
+
+.activity-item p {
+  color: #77849b;
+  font-size: 10px;
+  margin-top: 4px;
+}
+
+/* O'QITUVCHILAR */
+
+.dashboard-teachers .dash-box {
+  padding: 17px;
+}
+
+.dashboard-teachers .data-table {
+  min-width: 500px;
+}
+
+.dashboard-teachers .data-table th {
+  background: #f0f4fc;
+  color: #25395e;
+}
+
+/* MOBIL MOSLASHUV */
+
+@media (max-width: 1150px) {
+  .dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-bottom {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .activity-box {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 850px) {
+  .dashboard-middle {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    width: 210px;
+    min-width: 210px;
+  }
+
+  .main {
+    width: calc(100% - 210px);
+  }
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .main {
+    width: 100%;
+  }
+
+  .dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .activity-box {
+    grid-column: auto;
+  }
+
+  .dash-stat {
+    min-height: 110px;
+    padding: 13px;
+    gap: 8px;
+  }
+
+  .dash-stat-icon {
+    font-size: 25px;
+    min-width: 30px;
+  }
+
+  .dash-stat h3 {
+    font-size: 20px;
+  }
+
+  .distribution-content {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+}

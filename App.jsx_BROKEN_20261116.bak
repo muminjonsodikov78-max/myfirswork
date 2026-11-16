@@ -1,0 +1,79 @@
+﻿            <div className="class-cards-grid">
+              {filteredClasses.map((item, index) => (
+                <article className="class-card" key={item.id}>
+                  <div className="class-card-header">
+                    <div className="class-card-icon">📚</div>
+                    <span className={`class-card-status ${item.status === 'Nofaol' ? 'inactive' : 'active'}`}>
+                      {item.status || 'Faol'}
+                    </span>
+                  </div>
+
+                  <div className="class-card-title">
+                    <span>SINF / KURS #{index + 1}</span>
+                    <h3>{item.name}</h3>
+                  </div>
+
+                  <div className="class-card-info">
+                    <div className="class-card-row">
+                      <span>👨‍🏫</span>
+                      <div>
+                        <small>Mas'ul o‘qituvchi</small>
+                        <strong>{getTeacherName(item.teacherId)}</strong>
+                      </div>
+                    </div>
+
+                    <div className="class-card-row">
+                      <span>💰</span>
+                      <div>
+                        <small>Oylik to‘lov</small>
+                        <strong>{item.price || 'Belgilanmagan'}</strong>
+                      </div>
+                    </div>
+
+                    <div className="class-card-row">
+                      <span>📅</span>
+                      <div>
+                        <small>Dars kunlari</small>
+                        <strong>{(item.days || []).join(', ') || 'Belgilanmagan'}</strong>
+                      </div>
+                    </div>
+
+                    <div className="class-card-row">
+                      <span>🕒</span>
+                      <div>
+                        <small>Dars vaqti</small>
+                        <strong>
+                          {item.startTime || '--:--'} – {item.endTime || '--:--'}
+                        </strong>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="class-card-actions">
+                    <button
+                      type="button"
+                      className="class-edit-btn"
+                      onClick={() => editClass(item)}
+                    >
+                      Tahrirlash
+                    </button>
+
+                    <button
+                      type="button"
+                      className="class-delete-btn"
+                      onClick={() => removeItem(setClasses, item.id)}
+                    >
+                      O‘chirish
+                    </button>
+                  </div>
+                </article>
+              ))}
+
+              {filteredClasses.length === 0 && (
+                <div className="empty-message">
+                  Hozircha sinflar yo‘q
+                </div>
+              )}
+            </div>
+          </section>
+        )}
