@@ -34,8 +34,17 @@ npm run dev
 - `GET /api/auth/me` — joriy sessiya foydalanuvchisi
 - `POST /api/auth/logout` — sessiyadan chiqish
 - `GET /api/health` — server va PostgreSQL holati
+- `GET /api/users` — faqat direktor foydalanuvchilar ro‘yxatini ko‘radi
+- `POST /api/users` — faqat direktor yangi administrator, o‘qituvchi, kassir yoki ota-ona hisobini yaratadi
+- `GET /api/students` — direktor, administrator, o‘qituvchi va kassir
+- `POST/PUT/DELETE /api/students` — direktor va administrator
+- `GET/POST/PUT/DELETE /api/teachers` — direktor va administrator
 
 Sessiyalar PostgreSQL'da saqlanadi. Cookie HttpOnly va SameSite=Lax; production rejimida Secure yoqiladi. Production'da HTTPS ishlating va `CLIENT_ORIGIN` ni aniq frontend domeniga o'zgartiring.
+
+## Rollar bo‘yicha server ruxsatlari
+
+Ruxsatlar backend'da tekshiriladi; frontend menyusini yashirishning o‘zi xavfsizlik deb hisoblanmaydi. Direktor foydalanuvchilarni boshqaradi. O‘quvchilarni ko‘rish huquqi direktor, administrator, o‘qituvchi va kassirga berilgan; o‘quvchi ma'lumotini o‘zgartirish direktor va administrator bilan cheklangan. O‘qituvchilar ro‘yxatini hozircha faqat direktor va administrator boshqaradi.
 
 ## Hozirgi cheklov
 
