@@ -1,0 +1,41 @@
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #10264a, #1d3d70 58%, #edf2fa 58%);
+  font-family: Arial, sans-serif;
+}
+.auth-card {
+  width: min(100%, 420px);
+  display: flex;
+  flex-direction: column;
+  padding: 36px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 22px 70px #071a3533;
+}
+.auth-logo {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: #f3c847;
+  color: #10264a;
+  font-size: 28px;
+  font-weight: 800;
+}
+.auth-eyebrow { margin: 22px 0 8px; color: #8b6a0c; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; }
+.auth-card h1 { margin: 0; color: #142b4e; font-size: 28px; }
+.auth-description { margin: 10px 0 24px; color: #758198; line-height: 1.5; }
+.auth-card label { margin: 14px 0 7px; color: #34445d; font-size: 13px; font-weight: 700; }
+.auth-card input { width: 100%; box-sizing: border-box; padding: 13px 14px; border: 1px solid #d9e0eb; border-radius: 9px; outline: none; font-size: 15px; }
+.auth-card input:focus { border-color: #315ed6; box-shadow: 0 0 0 3px #315ed61c; }
+.auth-card button { margin-top: 24px; padding: 14px; border: 0; border-radius: 9px; background: #173765; color: white; font-size: 15px; font-weight: 700; cursor: pointer; }
+.auth-card button:disabled { opacity: .65; cursor: wait; }
+.auth-error { margin-top: 16px; padding: 11px 12px; border-radius: 8px; background: #fff0f0; color: #b42318; font-size: 13px; }
+.auth-loading { min-height: 100vh; display: grid; place-items: center; color: #173765; font: 600 16px Arial, sans-serif; }
+.auth-user-chip { position: fixed; z-index: 1000; top: 12px; right: 18px; display: flex; align-items: center; gap: 12px; padding: 7px 9px 7px 13px; border: 1px solid #dfe5ee; border-radius: 999px; background: #fff; box-shadow: 0 4px 18px #15294a18; color: #34445d; font: 12px Arial, sans-serif; }
+.auth-user-chip button { border: 0; border-radius: 999px; padding: 7px 11px; background: #173765; color: #fff; cursor: pointer; }
+@media (max-width: 650px) { .auth-card { padding: 26px 22px; } .auth-user-chip { top: auto; bottom: 12px; right: 12px; left: 12px; justify-content: space-between; } }
