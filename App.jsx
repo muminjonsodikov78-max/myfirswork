@@ -1,4 +1,4 @@
-﻿
+
 import { useEffect, useState } from 'react'
 import './App.css'
 
@@ -592,6 +592,22 @@ const editLesson = lesson => {
   })
 
   const pageTitle = activePage
+  const weekdayNames = ['Yakshanba', 'Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba']
+  const todayName = weekdayNames[new Date().getDay()]
+  const todayLessons = schedules.filter(item => item.day === todayName).sort((a, b) => String(a.startTime || '').localeCompare(String(b.startTime || '')))
+  const totalPaid = payments.reduce((sum, item) => sum + (Number(String(item.amount || '').replace(/[^0-9.-]/g, '')) || 0), 0)
+  const studentsWithPayment = new Set(payments.map(item => String(item.studentId)))
+  const studentsWithoutPaymentRecord = students.filter(item => !studentsWithPayment.has(String(item.id)))
+  const classDistribution = classes.map(item => ({ name: item.name, count: students.filter(student => String(student.group || '').trim().toLowerCase() === String(item.name || '').trim().toLowerCase()).length })).filter(item => item.count > 0)
+  const recentActivity = [
+    ...students.slice(-4).map(item => ({ id: 's' + item.id, title: 'Yangi o‘quvchi qo‘shildi', detail: item.name, icon: '♙', date: Number(item.id) || 0 })),
+    ...payments.slice(-4).map(item => ({ id: 'p' + item.id, title: 'To‘lov qabul qilindi', detail: getStudentName(item.studentId) + ' · ' + (Number(item.amount || 0)).toLocaleString('uz-UZ') + ' so‘m', icon: '₸', date: new Date(item.date || 0).getTime() || Number(item.id) || 0 })),
+    ...grades.slice(-3).map(item => ({ id: 'g' + item.id, title: 'Yangi baho qo‘yildi', detail: getStudentName(item.studentId) + ' · ' + item.subject + ' · ' + item.grade, icon: '★', date: new Date(item.date || 0).getTime() || Number(item.id) || 0 }))
+  ].sort((a, b) => b.date - a.date).slice(0, 6)
+  const teacherActivity = teachers.map(teacher => ({ ...teacher, lessonCount: schedules.filter(item => String(item.teacherId) === String(teacher.id)).length })).sort((a, b) => b.lessonCount - a.lessonCount).slice(0, 5)
+  const monthLabels = Array.from({ length: 6 }, (_, index) => { const date = new Date(); date.setMonth(date.getMonth() - (5 - index)); return { key: date.getFullYear() + '-' + date.getMonth(), label: date.toLocaleDateString('uz-UZ', { month: 'short' }), month: date.getMonth(), year: date.getFullYear() } })
+  const studentGrowth = monthLabels.map(month => ({ ...month, count: students.filter(student => { const date = new Date(Number(student.id)); return !Number.isNaN(date.getTime()) && date.getMonth() === month.month && date.getFullYear() === month.year }).length }))
+  const maxGrowth = Math.max(1, ...studentGrowth.map(item => item.count))
 
   return (
     <div className="app">
@@ -842,7 +858,11 @@ const editLesson = lesson => {
             <h2>{pageTitle}</h2>
             <p className="breadcrumb">Bosh sahifa / {pageTitle}</p>
           </div>
-          <div className="top-date">{today}</div>
+          <div className="topbar-actions">
+            <div className="top-date">{today}</div>
+            <button className="notification-button" type="button" aria-label="Bildirishnomalar">♢<span /></button>
+            <div className="director-profile"><div className="director-avatar">D</div><div><strong>Direktor</strong><small>Muhsin Ta’lim Markazi</small></div></div>
+          </div>
         </header>
 
         {/* DASHBOARD */}
@@ -858,37 +878,47 @@ const editLesson = lesson => {
             </section>
 
             <section className="stats-grid">
-              <div className="stat-card">
-                <div className="stat-icon">♙</div>
-                <div className="stat-info">
-                  <span>O‘quvchilar</span>
-                  <div className="stat-number">{students.length}</div>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon">♟</div>
-                <div className="stat-info">
-                  <span>O‘qituvchilar</span>
-                  <div className="stat-number">{teachers.length}</div>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon">▤</div>
-                <div className="stat-info">
-                  <span>Sinflar va kurslar</span>
-                  <div className="stat-number">{classes.length}</div>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon">▦</div>
-                <div className="stat-info">
-                  <span>Haftalik darslar</span>
-                  <div className="stat-number">{schedules.length}</div>
-                </div>
-              </div>
+              <div className="stat-card"><div className="stat-icon">♙</div><div className="stat-info"><span>Jami o‘quvchilar</span><div className="stat-number">{students.length}</div><small>Markazdagi o‘quvchilar</small></div></div>
+              <div className="stat-card"><div className="stat-icon">♟</div><div className="stat-info"><span>O‘qituvchilar</span><div className="stat-number">{teachers.length}</div><small>Faol pedagoglar</small></div></div>
+              <div className="stat-card"><div className="stat-icon">✓</div><div className="stat-info"><span>Davomat</span><div className="stat-number">{attendance.length ? Math.round(attendance.filter(item => item.status === "Keldi").length / attendance.length * 100) : 0}%</div><small>{attendance.length} ta davomat qaydi</small></div></div>
+              <div className="stat-card"><div className="stat-icon">₸</div><div className="stat-info"><span>Oylik to‘lovlar</span><div className="stat-number stat-money">{totalPaid.toLocaleString("uz-UZ")}</div><small>So‘m · {payments.length} ta to‘lov</small></div></div>
             </section>
 
-            <section className="dashboard-insights">
+            <section className="dashboard-main-grid">
+              <article className="panel growth-panel">
+                <div className="panel-heading"><div><h3>O‘quvchilar sonining o‘sishi</h3><p>Oxirgi 6 oy bo‘yicha yangi qo‘shilganlar</p></div><span className="panel-chip">6 oy</span></div>
+                <div className="growth-chart">{studentGrowth.map(item => <div className="growth-column" key={item.key}><strong>{item.count}</strong><div className="growth-track"><span style={{ height: ((item.count / maxGrowth) * 100) + "%" }} /></div><small>{item.label}</small></div>)}</div>
+              </article>
+              <article className="panel distribution-panel">
+                <div className="panel-heading"><div><h3>Sinflar taqsimoti</h3><p>Guruhlar bo‘yicha o‘quvchilar</p></div></div>
+                {classDistribution.length ? <div className="distribution-list">{classDistribution.slice(0, 5).map((item, index) => <div className="distribution-row" key={item.name}><div className="distribution-label"><span className={"distribution-dot dot-" + index} />{item.name}<strong>{item.count}</strong></div><div className="distribution-track"><span className={"distribution-fill fill-" + index} style={{ width: (item.count / Math.max(1, students.length) * 100) + "%" }} /></div></div>)}</div> : <div className="empty-message">Hozircha sinflar bo‘yicha mos o‘quvchi ma’lumoti yo‘q</div>}
+              </article>
+            </section>
+
+            <section className="dashboard-lower-grid">
+              <article className="panel upcoming-panel">
+                <div className="panel-heading"><div><h3>Yaqinlashayotgan darslar</h3><p>Bugun · {todayName}</p></div><span className="panel-chip">{todayLessons.length} ta dars</span></div>
+                {todayLessons.length ? <div className="upcoming-list">{todayLessons.slice(0, 5).map(item => <div className="upcoming-row" key={item.id}><div className="lesson-time">{item.startTime || "--:--"}<small>{item.endTime || ""}</small></div><div className="lesson-details"><strong>{item.subject || "Fan belgilanmagan"}</strong><span>{getClassName(item.classId)} · {getTeacherName(item.teacherId)}</span></div></div>)}</div> : <div className="empty-message">Bugun uchun dars jadvali kiritilmagan</div>}
+              </article>
+              <article className="panel payment-panel">
+                <div className="panel-heading"><div><h3>To‘lovlar holati</h3><p>Qayd etilgan to‘lovlar asosida</p></div></div>
+                <div className="payment-summary"><div className="payment-total"><span>Jami tushum</span><strong>{totalPaid.toLocaleString("uz-UZ")} so‘m</strong></div><div className="payment-stats"><div><span className="payment-dot paid-dot" />To‘lov qaydi bor<strong>{students.length - studentsWithoutPaymentRecord.length}</strong></div><div><span className="payment-dot unpaid-dot" />To‘lov qaydi yo‘q<strong>{studentsWithoutPaymentRecord.length}</strong></div></div><p className="payment-note">“Qayd yo‘q” — bu qarzdorlik tasdiqlanganini anglatmaydi.</p></div>
+              </article>
+            </section>
+
+            <section className="dashboard-lower-grid activity-teachers-grid">
+              <article className="panel activity-panel">
+                <div className="panel-heading"><div><h3>So‘nggi faoliyat</h3><p>Oxirgi kiritilgan ma’lumotlar</p></div></div>
+                {recentActivity.length ? <div className="activity-list">{recentActivity.map(item => <div className="activity-row" key={item.id}><span className="activity-icon">{item.icon}</span><div><strong>{item.title}</strong><small>{item.detail}</small></div></div>)}</div> : <div className="empty-message">Hozircha faoliyat qaydlari yo‘q</div>}
+              </article>
+              <article className="panel top-teachers-panel">
+                <div className="panel-heading"><div><h3>Eng faol o‘qituvchilar</h3><p>Jadvaldagi darslar soni bo‘yicha</p></div></div>
+                {teacherActivity.length ? <div className="table-scroll"><table className="data-table teacher-ranking-table"><thead><tr><th>O‘qituvchi</th><th>Fan</th><th>Darslar</th></tr></thead><tbody>{teacherActivity.map((teacher, index) => <tr key={teacher.id}><td><span className="teacher-rank">{index + 1}</span>{teacher.name}</td><td>{teacher.subject || "—"}</td><td><strong>{teacher.lessonCount}</strong></td></tr>)}</tbody></table></div> : <div className="empty-message">O‘qituvchilar ma’lumoti yo‘q</div>}
+              </article>
+            </section>
+
+            <section className="panel">
+
               <article className="dashboard-insight-card dashboard-income">
                 <div className="dashboard-insight-top">
                   <span className="dashboard-insight-icon">↗</span>
@@ -930,7 +960,7 @@ const editLesson = lesson => {
 
             <section className="panel">
               <div className="panel-heading">
-                <h3>So‘nggi qo‘shilgan o‘quvchilar</h3>
+                <h3>Yaqinda qo‘shilgan o‘quvchilar</h3>
               </div>
               {students.length === 0 ? (
                 <div className="empty-message">Hozircha o‘quvchilar yo‘q</div>
