@@ -37,7 +37,7 @@ router.post('/', allowRoles(...writeRoles), async (req, res, next) => {
 
 router.put('/:id', allowRoles(...writeRoles), async (req, res, next) => {
   try {
-    if (!/^\\d+$/.test(req.params.id)) return res.status(400).json({ error: 'ID noto‘g‘ri.' })
+    if (!/^\d+$/.test(req.params.id)) return res.status(400).json({ error: 'ID noto‘g‘ri.' })
     const { name, phone = '', group = '', payment = '', status = 'Faol' } = req.body || {}
     if (typeof name !== 'string' || !name.trim() || name.trim().length > 160) {
       return res.status(400).json({ error: 'O‘quvchi ismi 1–160 belgidan iborat bo‘lishi kerak.' })
@@ -53,7 +53,7 @@ router.put('/:id', allowRoles(...writeRoles), async (req, res, next) => {
 
 router.delete('/:id', allowRoles(...writeRoles), async (req, res, next) => {
   try {
-    if (!/^\\d+$/.test(req.params.id)) return res.status(400).json({ error: 'ID noto‘g‘ri.' })
+    if (!/^\d+$/.test(req.params.id)) return res.status(400).json({ error: 'ID noto‘g‘ri.' })
     const result = await pool.query('DELETE FROM students WHERE id=$1', [req.params.id])
     if (!result.rowCount) return res.status(404).json({ error: 'O‘quvchi topilmadi.' })
     res.json({ ok: true })
