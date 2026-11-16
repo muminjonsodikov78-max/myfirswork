@@ -918,47 +918,6 @@ const editLesson = lesson => {
             </section>
 
             <section className="panel">
-
-              <article className="dashboard-insight-card dashboard-income">
-                <div className="dashboard-insight-top">
-                  <span className="dashboard-insight-icon">↗</span>
-                  <span className="dashboard-insight-label">JAMI TUSHUM</span>
-                </div>
-                <strong>
-                  {payments.reduce((sum, item) => sum + (Number(String(item.amount || '').replace(/[^0-9.-]/g, '')) || 0), 0).toLocaleString('uz-UZ')} so‘m
-                </strong>
-                <p>{payments.length} ta to‘lov qayd etilgan</p>
-              </article>
-
-              <article className="dashboard-insight-card dashboard-attendance">
-                <div className="dashboard-insight-top">
-                  <span className="dashboard-insight-icon">✓</span>
-                  <span className="dashboard-insight-label">DAVOMAT</span>
-                </div>
-                <strong>
-                  {attendance.length ? Math.round(attendance.filter(item => item.status === 'Keldi').length / attendance.length * 100) : 0}%
-                </strong>
-                <p>{attendance.filter(item => item.status === 'Keldi').length} ta kelgan / {attendance.length} ta qayd</p>
-              </article>
-
-              <article className="dashboard-insight-card dashboard-grades">
-                <div className="dashboard-insight-top">
-                  <span className="dashboard-insight-icon">★</span>
-                  <span className="dashboard-insight-label">O‘RTACHA BAHO</span>
-                </div>
-                <strong>
-                  {(() => {
-                    const numericGrades = grades.map(item => Number(item.grade)).filter(value => Number.isFinite(value) && value > 0)
-                    return numericGrades.length
-                      ? (numericGrades.reduce((sum, value) => sum + value, 0) / numericGrades.length).toFixed(1)
-                      : '—'
-                  })()}
-                </strong>
-                <p>{grades.length} ta baholash qayd etilgan</p>
-              </article>
-            </section>
-
-            <section className="panel">
               <div className="panel-heading">
                 <h3>Yaqinda qo‘shilgan o‘quvchilar</h3>
               </div>
