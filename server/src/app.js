@@ -6,6 +6,7 @@ import connectPgSimple from 'connect-pg-simple'
 import { rateLimit } from 'express-rate-limit'
 import { pool } from './config/database.js'
 import authRoutes from './routes/auth.js'
+import userRoutes from './routes/users.js'
 
 if (!process.env.SESSION_SECRET || process.env.SESSION_SECRET.length < 32) {
   throw new Error('SESSION_SECRET kamida 32 belgidan iborat bo‘lishi kerak')
@@ -15,6 +16,7 @@ const app = express()
 const PgSession = connectPgSimple(session)
 const isProduction = process.env.NODE_ENV === 'production'
 const allowedOrigin = process.env.CLIENT_ORIGIN
+const unsafeMethods = new Set(['POST', 'PUT', 'PATCH', 'DELETE'])
 
 if (!allowedOrigin) throw new Error('CLIENT_ORIGIN .env faylida sozlanmagan')
 if (isProduction) app.set('trust proxy', 1)
@@ -27,6 +29,12 @@ app.use(cors({
   },
   credentials: true,
 }))
+app.use((req, res, next) => {
+  if (unsafeMethods.has(req.method) && req.get('origin') !== allowedOrigin) {
+    return res.status(403).json({ error: 'So‘rov manbasi tasdiqlanmadi' })
+  }
+  next()
+})
 app.use(express.json({ limit: '100kb' }))
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeaders: 'draft-7', legacyHeaders: false }))
 
@@ -54,6 +62,7 @@ app.get('/api/health', async (_req, res) => {
 })
 
 app.use('/api/auth', authRoutes)
+app.use('/api/users', userRoutes)
 
 app.use((error, _req, res, _next) => {
   console.error(error.message)
