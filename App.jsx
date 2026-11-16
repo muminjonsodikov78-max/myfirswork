@@ -888,6 +888,24 @@ const editLesson = lesson => {
               </div>
             </section>
 
+            <section className="dashboard-insights">
+              <article className="dashboard-insight-card dashboard-income">
+                <div className="dashboard-insight-top"><span className="dashboard-insight-icon">↗</span><span className="dashboard-insight-label">JAMI TUSHUM</span></div>
+                <strong>{payments.reduce((sum, item) => sum + (Number(String(item.amount || '').replace(/[^0-9.-]/g, '')) || 0), 0).toLocaleString('uz-UZ')} so‘m</strong>
+                <p>{payments.length} ta to‘lov qayd etilgan</p>
+              </article>
+              <article className="dashboard-insight-card dashboard-attendance">
+                <div className="dashboard-insight-top"><span className="dashboard-insight-icon">✓</span><span className="dashboard-insight-label">DAVOMAT</span></div>
+                <strong>{attendance.length ? Math.round(attendance.filter(item => item.status === 'Keldi').length / attendance.length * 100) : 0}%</strong>
+                <p>{attendance.filter(item => item.status === 'Keldi').length} ta kelgan / {attendance.length} ta qayd</p>
+              </article>
+              <article className="dashboard-insight-card dashboard-grades">
+                <div className="dashboard-insight-top"><span className="dashboard-insight-icon">★</span><span className="dashboard-insight-label">O‘RTACHA BAHO</span></div>
+                <strong>{grades.length ? (grades.reduce((sum, item) => sum + (Number(item.grade) || 0), 0) / grades.length).toFixed(1) : '—'}</strong>
+                <p>{grades.length} ta baholash kiritilgan</p>
+              </article>
+            </section>
+
             <section className="panel">
               <div className="panel-heading">
                 <h3>So‘nggi qo‘shilgan o‘quvchilar</h3>
