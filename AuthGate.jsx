@@ -61,11 +61,17 @@ export default function AuthGate() {
   }
 
   async function handleLogout() {
+    setError('')
     try {
-      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' })
-    } finally {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      })
+      if (!response.ok) throw new Error('Tizimdan chiqish amalga oshmadi. Qayta urinib ko‘ring.')
       setUser(null)
       setPassword('')
+    } catch (err) {
+      setError(err.message || 'Serverga ulanib bo‘lmadi')
     }
   }
 
