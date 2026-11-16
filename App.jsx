@@ -36,36 +36,85 @@ const loadData = (key, fallback = []) => {
 
 const makeId = () => Date.now() + Math.floor(Math.random() * 1000)
 
+const DEMO_KEYS = ['muhsin_students','muhsin_teachers','muhsin_classes','muhsin_weekly_schedules_v2','muhsin_attendance','muhsin_grades','muhsin_payments','muhsin_parents']
+const isDemoPreview = typeof window !== 'undefined' && window.location.hostname.includes('edusync-dashboard-redesign')
+const makeDemoData = () => {
+  const now = new Date()
+  const names = ['Azizbek Karimov','Madina Xasanova','Javohir Rahimov','Mohinur Ismoilova','Sardor Tursunov','Sevinch Abdullayeva','Bekzod Aliyev','Muslima Qodirova','Diyorbek Ergashev','Shahnoza Olimova','Asadbek Sobirov','Nilufar Yusupova','Ibrohim Nurmatov','Zuhra To‘xtayeva','Muhammadali Akbarov','Gulnoza Usmonova','Farrux Yo‘ldoshev','Madina Sodiqova']
+  const groups = ['Matematika 1-guruh','Ingliz tili 1-guruh','IT boshlang‘ich','Matematika 2-guruh']
+  const students = names.map((name,index) => {
+    const joined = new Date(now)
+    joined.setMonth(joined.getMonth() - Math.floor(index / 3))
+    joined.setDate(4 + (index % 20))
+    return { id: joined.getTime() + index, name, phone: '+998 9' + String(10000000 + index * 13791).slice(0,8), group: groups[index % 4], payment: '450000', status: index === 16 ? 'Nofaol' : 'Faol' }
+  })
+  const teachers = [
+    { id:101,name:'Dilshod Iskandarov',phone:'+998 90 123 45 67',subject:'Matematika',salary:'5000000',status:'Faol' },
+    { id:102,name:'Malika Raximova',phone:'+998 91 234 56 78',subject:'Ingliz tili',salary:'4800000',status:'Faol' },
+    { id:103,name:'Jasur Abdullayev',phone:'+998 93 345 67 89',subject:'Informatika',salary:'4500000',status:'Faol' },
+    { id:104,name:'Nodira Karimova',phone:'+998 94 456 78 90',subject:'Ona tili',salary:'4200000',status:'Faol' }
+  ]
+  const classes = [
+    { id:201,name:groups[0],teacherId:101,price:'450000',days:DAYS.slice(0,3),startTime:'09:00',endTime:'10:30',status:'Faol' },
+    { id:202,name:groups[1],teacherId:102,price:'450000',days:DAYS.slice(1,4),startTime:'10:00',endTime:'11:30',status:'Faol' },
+    { id:203,name:groups[2],teacherId:103,price:'500000',days:DAYS.slice(2,5),startTime:'14:00',endTime:'15:30',status:'Faol' },
+    { id:204,name:groups[3],teacherId:101,price:'450000',days:DAYS.slice(3,6),startTime:'16:00',endTime:'17:30',status:'Faol' }
+  ]
+  const todayName = DAYS[(now.getDay() + 6) % 7]
+  const schedules = [
+    { id:301,classId:201,day:todayName,subject:'Matematika',teacherId:101,startTime:'09:00',endTime:'10:30' },
+    { id:302,classId:202,day:todayName,subject:'Ingliz tili',teacherId:102,startTime:'11:00',endTime:'12:30' },
+    { id:303,classId:203,day:todayName,subject:'Informatika',teacherId:103,startTime:'14:00',endTime:'15:30' },
+    { id:304,classId:204,day:todayName,subject:'Matematika',teacherId:101,startTime:'16:00',endTime:'17:30' },
+    { id:305,classId:202,day:'Juma',subject:'Ingliz tili',teacherId:102,startTime:'15:00',endTime:'16:30' }
+  ]
+  const attendance = students.slice(0,14).map((student,index) => ({ id:401+index,studentId:student.id,date:now.toISOString().slice(0,10),status:index===4||index===10?'Kelmadi':'Keldi',note:'' }))
+  const grades = students.slice(0,9).map((student,index) => ({ id:501+index,studentId:student.id,subject:['Matematika','Ingliz tili','Informatika'][index%3],grade:String([5,4,5,4,3,5,4,5,4][index]),date:now.toISOString().slice(0,10) }))
+  const payments = students.slice(0,13).filter((_,index)=>index!==3&&index!==8).map((student,index)=>({ id:601+index,studentId:student.id,amount:index%4===0?'500000':'450000',date:now.toISOString().slice(0,10),note:'Oylik to‘lov' }))
+  const parents = students.slice(0,8).map((student,index)=>({ id:701+index,name:['Kamol Karimov','Zarina Xasanova','Otabek Rahimov','Dilorom Ismoilova'][index%4],phone:'+998 9'+String(20000000+index*13579).slice(0,8),studentId:student.id }))
+  return { students,teachers,classes,schedules,attendance,grades,payments,parents }
+}
+const DEMO_DATA = makeDemoData()
+const loadAppData = key => {
+  if (isDemoPreview) {
+    const hasSavedRecords = DEMO_KEYS.some(dataKey => {
+      try { const saved=localStorage.getItem(dataKey); return saved && JSON.parse(saved).length>0 } catch { return false }
+    })
+    if (!hasSavedRecords) return DEMO_DATA[key]
+  }
+  return loadData(key)
+}
+
 function App() {
   const [activePage, setActivePage] = useState('Dashboard')
 
   // Asosiy ma'lumotlar
   const [students, setStudents] = useState(() =>
-    loadData('muhsin_students')
+    loadAppData('muhsin_students')
   )
   const [teachers, setTeachers] = useState(() =>
-    loadData('muhsin_teachers')
+    loadAppData('muhsin_teachers')
   )
   const [classes, setClasses] = useState(() =>
-    loadData('muhsin_classes')
+    loadAppData('muhsin_classes')
   )
 
   // Yangi haftalik jadval alohida saqlanadi
   const [schedules, setSchedules] = useState(() =>
-    loadData('muhsin_weekly_schedules_v2')
+    loadAppData('muhsin_weekly_schedules_v2')
   )
 
   const [attendance, setAttendance] = useState(() =>
-    loadData('muhsin_attendance')
+    loadAppData('muhsin_attendance')
   )
   const [grades, setGrades] = useState(() =>
-    loadData('muhsin_grades')
+    loadAppData('muhsin_grades')
   )
   const [payments, setPayments] = useState(() =>
-    loadData('muhsin_payments')
+    loadAppData('muhsin_payments')
   )
   const [parents, setParents] = useState(() =>
-    loadData('muhsin_parents')
+    loadAppData('muhsin_parents')
   )
 
   // Qidiruv va formalar
@@ -873,6 +922,7 @@ const editLesson = lesson => {
                 <span className="welcome-tag">BOSHQARUV PANELI</span>
                 <h1>Xush kelibsiz!</h1>
                 <p>MUHSIN TA'LIM MARKAZI boshqaruv tizimi</p>
+                {isDemoPreview && <span className="demo-data-notice">NAMUNAVIY DEMO MA’LUMOTLAR · HAQIQIY MIJOZLAR EMAS</span>}
               </div>
               <div className="welcome-art">🎓</div>
             </section>
