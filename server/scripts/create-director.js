@@ -24,14 +24,14 @@ function askHidden(question) {
     stdin.resume()
     const onData = (chunk) => {
       const char = chunk.toString('utf8')
-      if (char === '\\u0003') {
+      if (char === '\u0003') {
         cleanup()
         reject(new Error('Bekor qilindi'))
-      } else if (char === '\\r' || char === '\\n') {
+      } else if (char === '\r' || char === '\n') {
         cleanup()
-        process.stdout.write('\\n')
+        process.stdout.write('\n')
         resolve(value)
-      } else if (char === '\\u007f' || char === '\\b') {
+      } else if (char === '\u007f' || char === '\b') {
         value = value.slice(0, -1)
       } else if (char >= ' ' && char <= '~') {
         value += char
