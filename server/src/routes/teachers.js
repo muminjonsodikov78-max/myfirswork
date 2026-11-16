@@ -35,7 +35,7 @@ router.post('/', allowRoles('director', 'administrator'), async (req, res, next)
 
 router.put('/:id', allowRoles('director', 'administrator'), async (req, res, next) => {
   try {
-    if (!/^\\d+$/.test(req.params.id)) return res.status(400).json({ error: 'ID noto‘g‘ri.' })
+    if (!/^\d+$/.test(req.params.id)) return res.status(400).json({ error: 'ID noto‘g‘ri.' })
     const { name, phone = '', subject = '', salary = '', status = 'Faol' } = req.body || {}
     if (typeof name !== 'string' || !name.trim() || name.trim().length > 160) {
       return res.status(400).json({ error: 'O‘qituvchi ismi 1–160 belgidan iborat bo‘lishi kerak.' })
@@ -51,7 +51,7 @@ router.put('/:id', allowRoles('director', 'administrator'), async (req, res, nex
 
 router.delete('/:id', allowRoles('director', 'administrator'), async (req, res, next) => {
   try {
-    if (!/^\\d+$/.test(req.params.id)) return res.status(400).json({ error: 'ID noto‘g‘ri.' })
+    if (!/^\d+$/.test(req.params.id)) return res.status(400).json({ error: 'ID noto‘g‘ri.' })
     const result = await pool.query('DELETE FROM teachers WHERE id=$1', [req.params.id])
     if (!result.rowCount) return res.status(404).json({ error: 'O‘qituvchi topilmadi.' })
     res.json({ ok: true })
